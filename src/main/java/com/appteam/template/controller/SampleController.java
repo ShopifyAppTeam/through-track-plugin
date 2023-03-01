@@ -19,8 +19,8 @@ public class SampleController {
     @GetMapping("/my-store-info")
     public String myStoreInfo() {
         try {
-            String token = "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"; // API token, generated in store
-            String subdomain = "appteamtest";
+            String token = ""; // API token, generated in store
+            String subdomain = "";
             final ShopifySdk shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
             final ShopifyShop shopifyShop = shopifySdk.getShop();
             return shopifyShop.getShop().getName();
