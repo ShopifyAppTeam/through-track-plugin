@@ -1,1 +1,5 @@
-# shopify-java-template
+# Shopify Java Template
+
+Compatible with Java 8-11 
+
+
