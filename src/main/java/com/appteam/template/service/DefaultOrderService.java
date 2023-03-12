@@ -15,6 +15,10 @@ public class DefaultOrderService implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    public DefaultOrderService(OrderRepository orderRepositoryMock) {
+        orderRepository = orderRepositoryMock;
+    }
+
     @Override
     public OrderData saveOrder(OrderData orderData) {
         Order order = populateOrderEntity(orderData);
