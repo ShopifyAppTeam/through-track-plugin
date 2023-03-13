@@ -11,12 +11,13 @@ class OrderInfoTest {
 
     @Mock
     OrderInfo orderInfoMock = Mockito.mock(OrderInfo.class);
+    JSONObject emptyOrderInfo = new JSONObject();
 
     {
-       //Mockito.when(orderInfoMock.getOrderInfo()).thenReturn();
+       Mockito.when(orderInfoMock.getOrderInfo()).thenReturn(emptyOrderInfo);
     }
     @Test
     void getOrderInfo() {
-
+        assertEquals(orderInfoMock.getOrderInfo(), emptyOrderInfo);
     }
 }

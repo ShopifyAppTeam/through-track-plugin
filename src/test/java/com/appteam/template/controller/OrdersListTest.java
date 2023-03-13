@@ -10,12 +10,11 @@ class OrdersListTest {
     @Mock
     OrdersList ordersListMock = Mockito.mock(OrdersList.class);
     {
-
+        Mockito.when(ordersListMock.getOrders()).thenReturn("ordersList");
     }
 
     @Test
     void getOrders() {
-
-
+        assertEquals("ordersList", ordersListMock.getOrders());
     }
 }
