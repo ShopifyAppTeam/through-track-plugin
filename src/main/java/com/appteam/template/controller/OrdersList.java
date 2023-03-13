@@ -5,15 +5,19 @@ import com.shopify.model.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
-@RestController
+// @RestController
 public class OrdersList {
-    private final String token = ""; // API token, generated in store
-    private final String subdomain = "";
-    final ShopifySdk shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
+    private final String token;  // API token, generated in store
+    private final String subdomain;
+    final ShopifySdk shopifySdk;
 
-    @GetMapping("/store-orders")
+    OrdersList(String token_, String subdomain_) {
+        token = token_;  // = "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";
+        subdomain = subdomain_;  // = "java-shop1";
+        shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
+    }
+
+    // @GetMapping("/store-orders")
     public String getOrders() {
         try {
             ShopifyPage<ShopifyOrder> shopifyOrders = shopifySdk.getOrders();
@@ -22,71 +26,4 @@ public class OrdersList {
             return exc.getMessage();
         }
     }
-
-    @GetMapping("/store-order-parameters/id")
-    public String getOrderId(ShopifyOrder shopifyOrder) {
-        try {
-            return shopifyOrder.getId();
-        } catch (Exception exc) {
-            return exc.getMessage();
-        }
-    }
-
-    @GetMapping("/store-order-parameters/shipment-id")
-    public String getOrderShipmentId(ShopifyOrder shopifyOrder) {
-        try {
-            StringBuilder shopifyOrderShipmentId = new StringBuilder();
-            for (ShopifyShippingLine line : shopifyOrder.getShippingLines()) {
-                shopifyOrderShipmentId.append(line.getId());
-                shopifyOrderShipmentId.append('\n');
-            }
-
-            return shopifyOrderShipmentId.toString(); // shipment id
-        } catch (Exception exc) {
-            return exc.getMessage();
-        }
-    }
-
-    @GetMapping("/store-order-parameters/shipping-method")
-    public String getOrderShippingMethod(ShopifyOrder shopifyOrder) {
-        try {
-            StringBuilder shopifyOrderShippingMethod = new StringBuilder();
-            for (ShopifyShippingLine line : shopifyOrder.getShippingLines()) {
-                shopifyOrderShippingMethod.append(line.getSource());
-                shopifyOrderShippingMethod.append('\n');
-            }
-            return shopifyOrderShippingMethod.toString();
-        } catch (Exception exc) {
-            return exc.getMessage();
-        }
-    }
-
-    @GetMapping("/store-order-parameters/order-status")
-    public String getOrderStatus(ShopifyOrder shopifyOrder) {
-        try {
-            return shopifyOrder.getOrderStatusUrl();
-        } catch (Exception exc) {
-            return exc.getMessage();
-        }
-    }
-
-    @GetMapping("/store-order-parameters/order-link")
-    public String getOrderLink(ShopifyOrder shopifyOrder) {
-        try {
-            return shopifyOrder.getLandingSite();
-        } catch (Exception exc) {
-            return exc.getMessage();
-        }
-    }
-
-    @GetMapping("/store-order-parameters/tracking-info")
-    public String getOrderTrackingInfo(ShopifyOrder shopifyOrder) {
-        try {
-            List<ShopifyFulfillment> shopifyOrderTrackingInfo = shopifyOrder.getFulfillments();
-            return shopifyOrderTrackingInfo.toString();
-        } catch (Exception exc) {
-            return exc.getMessage();
-        }
-    }
-
 }
