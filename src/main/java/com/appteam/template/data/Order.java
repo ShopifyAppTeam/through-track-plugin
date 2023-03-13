@@ -8,10 +8,13 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name="order", schema = "through-track-plugin_db")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
+    @Column(name = "shipmentid")
     private Long shipmentId;
 
     public Order() {
