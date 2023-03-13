@@ -8,7 +8,7 @@ apply plugin: "org.springframework.boot"
 
 group = 'com.appteam'
 version = '0.0.1-SNAPSHOT'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
@@ -37,6 +37,11 @@ dependencies {
 			strictly('2.25.1')
 		}
 	}
+	implementation('org.mockito:mockito-core') {
+		version {
+			strictly('2.22.0')
+		}
+	}
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -48,3 +53,4 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+targetCompatibility = JavaVersion.VERSION_11

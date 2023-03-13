@@ -2,6 +2,9 @@ package com.appteam.template.controller;
 
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
 
 @RestController
+@EnableScheduling
 public class SampleController {
     @GetMapping("/")
     public String greetings() {
@@ -52,5 +56,11 @@ public class SampleController {
         } catch (Exception exc) {
             return exc.getMessage();
         }
+    }
+
+    @Scheduled(fixedDelay = 86400000)
+    @Async
+    private void updateShipmentStatus() {
+
     }
 }
