@@ -17,8 +17,8 @@ public class OrderInfo {
     final ShopifySdk shopifySdk;
 
     OrderInfo(String token_, String subdomain_, String orderId_) {
-        token = token_;  // = "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";
-        subdomain = subdomain_;  // = "java-shop1";
+        token = token_;
+        subdomain = subdomain_;
         shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
         orderId = orderId_;
     }
