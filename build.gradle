@@ -45,9 +45,9 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testImplementation 'junit:junit:4.13'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+	testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
 }
 
 tasks.named('test') {

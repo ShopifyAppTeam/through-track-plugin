@@ -60,7 +60,7 @@ public class SampleController {
 
     @Scheduled(fixedDelay = 86400000)
     @Async
-    private void updateShipmentStatus() {
+    protected void updateShipmentStatus() {
 
     }
 }
