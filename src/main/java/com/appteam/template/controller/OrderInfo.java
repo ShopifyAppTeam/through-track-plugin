@@ -9,21 +9,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-// @RestController
+//@RestController
 public class OrderInfo {
     private final String token; // API token, generated in store
     private final String subdomain;
     private final String orderId;
     final ShopifySdk shopifySdk;
 
-    OrderInfo(String token_, String subdomain_, String orderId_) {
-        token = token_;
-        subdomain = subdomain_;
+   OrderInfo(String token, String subdomain, String orderId) {
+        this.token = token;
+        this.subdomain = subdomain;
         shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
-        orderId = orderId_;
+        this.orderId = orderId;
     }
 
-    public JSONObject getOrderInfo() {
+    //@GetMapping("/order-info")
+   public JSONObject getOrderInfo() {
         ShopifyOrder order = shopifySdk.getOrder(orderId);
         JSONObject orderInfoJson = new JSONObject();
         try {
@@ -40,8 +41,8 @@ public class OrderInfo {
             }
             return orderInfoJson;
         } catch (Exception exc) {
-            orderInfoJson.put("Exception", exc.getMessage());
-            return orderInfoJson;
+           orderInfoJson.put("Exception", exc.getMessage());
+           return orderInfoJson;
         }
     }
 }
