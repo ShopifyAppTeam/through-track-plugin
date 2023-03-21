@@ -4,7 +4,13 @@ package com.appteam.template.data;
 
 import com.appteam.template.dto.OrderData;
 
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
@@ -47,7 +53,7 @@ public class Order {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Order)) return false;
         Order order = (Order) o;
         return Objects.equals(id, order.id) && Objects.equals(shipmentId, order.shipmentId);
     }
