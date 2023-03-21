@@ -1,14 +1,21 @@
+buildscript {
+	dependencies {
+		classpath 'org.postgresql:postgresql:42.2.1'
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.0.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.flywaydb.flyway' version '5.0.7'
 }
 
-apply plugin: "org.springframework.boot"
 
 group = 'com.appteam'
 version = '0.0.1-SNAPSHOT'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
+
 
 repositories {
 	mavenCentral()
@@ -38,11 +45,24 @@ dependencies {
 		}
 	}
 
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.flywaydb:flyway-core'
+	runtimeOnly 'org.postgresql:postgresql'
 
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mockito:mockito-core:1.10.19'
+}
 
+flyway {
+	url = 'jdbc:postgresql://localhost:5433/orders'
+	user = 'postgres'
+	password = 'pswd'
+	schemas = ['through-track-plugin_db']
+	locations= ['filesystem:.src/main/resources/db/migration']
 }
 
 tasks.named('test') {
