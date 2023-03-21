@@ -1,7 +1,7 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.0.0.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 apply plugin: "org.springframework.boot"
@@ -11,46 +11,46 @@ version = '0.0.1-SNAPSHOT'
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// do not modify versions
-	implementation 'com.channelape:shopify-sdk:2.5.0'
-	implementation('org.glassfish.jersey.core:jersey-client') {
-		version {
-			strictly('2.25.1')
-		}
-	}
-	implementation('org.glassfish.jersey.core:jersey-common') {
-		version {
-			strictly('2.25.1')
-		}
-	}
-	implementation('org.glassfish.jersey.media:jersey-media-jaxb') {
-		version {
-			strictly('2.25.1')
-		}
-	}
-	implementation('org.glassfish.jersey.media:jersey-media-json-jackson') {
-		version {
-			strictly('2.25.1')
-		}
-	}
-	implementation('org.mockito:mockito-core') {
-		version {
-			strictly('2.22.0')
-		}
-	}
+    // do not modify versions
+    implementation 'com.channelape:shopify-sdk:2.5.0'
+    implementation('org.glassfish.jersey.core:jersey-client') {
+        version {
+            strictly('2.25.1')
+        }
+    }
+    implementation('org.glassfish.jersey.core:jersey-common') {
+        version {
+            strictly('2.25.1')
+        }
+    }
+    implementation('org.glassfish.jersey.media:jersey-media-jaxb') {
+        version {
+            strictly('2.25.1')
+        }
+    }
+    implementation('org.glassfish.jersey.media:jersey-media-json-jackson') {
+        version {
+            strictly('2.25.1')
+        }
+    }
+    implementation('org.mockito:mockito-core') {
+        version {
+            strictly('2.22.0')
+        }
+    }
 
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	testImplementation 'junit:junit:4.13'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 targetCompatibility = JavaVersion.VERSION_11

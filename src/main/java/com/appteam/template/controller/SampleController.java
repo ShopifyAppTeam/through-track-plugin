@@ -1,29 +1,29 @@
 package com.appteam.template.controller;
 
+import com.appteam.template.services.DHLService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpClient;
 
 @RestController
-@EnableScheduling
 public class SampleController {
+    private final DHLService DHLservice;
+
+    public SampleController(DHLService DHLservice) {
+        this.DHLservice = DHLservice;
+    }
+
     @GetMapping("/")
     public String greetings() {
         return "Greetings from Application!\n";
     }
 
 
-    /*
-        Sample call to Shopify API
-    */
+    /**
+     * Sample call to Shopify API
+     */
     @GetMapping("/my-store-info")
     public String myStoreInfo() {
         try {
@@ -37,30 +37,11 @@ public class SampleController {
         }
     }
 
-    /*
-        Sample call to DHL API
-    */
+    /**
+     * Call to DHL API, that updates shipment status in database and returns it
+     */
     @GetMapping("/my-shipment-status")
     public String myShipmentStatus(@RequestParam String id) {
-        try {
-            if (id == null) {
-                return "No shipment tracking number";
-            }
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(java.net.URI.create("https://api-eu.dhl.com/track/shipments?trackingNumber=" + id))
-                    .header("DHL-API-Key", "14REm4bzMWj4sZUNvM950izekwaYUAVN")
-                    .method("GET", java.net.http.HttpRequest.BodyPublishers.noBody())
-                    .build();
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
-        } catch (Exception exc) {
-            return exc.getMessage();
-        }
-    }
-
-    @Scheduled(fixedDelay = 86400000)
-    @Async
-    protected void updateShipmentStatus() {
-
+        return DHLservice.getShipmentInfo(id);
     }
 }
