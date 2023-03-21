@@ -3,11 +3,14 @@ package com.appteam.template.service;
 import com.appteam.template.data.Order;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.repository.OrderRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -18,9 +21,12 @@ import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
-class DefaultOrderServiceTest {
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class DefaultOrderServiceTest {
     @Mock
     OrderRepository orderRepositoryMock = Mockito.mock(OrderRepository.class);
     OrderService orderService = new DefaultOrderService(orderRepositoryMock);
@@ -38,7 +44,7 @@ class DefaultOrderServiceTest {
         Mockito.when(orderRepositoryMock.findAll()).thenReturn(orderList);
     }
     @Test
-    void saveOrder() {
+    public void saveOrder() {
         for (Order order : orderList) {
             OrderData data = new OrderData(order);
             assertEquals(data, orderService.saveOrder(data));
@@ -46,7 +52,7 @@ class DefaultOrderServiceTest {
     }
 
     @Test
-    void deleteOrder() {
+    public void deleteOrder() {
         for (Order order : orderList) {
             OrderData data = new OrderData(order);
             assertEquals(true, orderService.deleteOrder(data.getId()));
@@ -54,7 +60,7 @@ class DefaultOrderServiceTest {
     }
 
     @Test
-    void getAllOrders() {
+    public void getAllOrders() {
         List<OrderData> orders = orderService.getAllOrders();
         assertEquals(orderList.size(), orders.size());
         for (int iter = 0; iter < orderList.size(); iter++) {
@@ -63,7 +69,7 @@ class DefaultOrderServiceTest {
     }
 
     @Test
-    void getOrderById() {
+    public void getOrderById() {
         Map<Long, Long>orderMap = new HashMap<>();
         for (Order order : orderList) {
             orderMap.put(order.getId(), order.getShipmentId());
@@ -74,9 +80,9 @@ class DefaultOrderServiceTest {
                 OrderData data = new OrderData(id, orderMap.get(id));
                 assertEquals(data, orderService.getOrderById(id));
             } else {
-                assertThrows(EntityNotFoundException.class,
-                        () -> orderService.getOrderById(id),
-                        "Order not found");
+                assertThrows("Order not found",
+                        EntityNotFoundException.class,
+                        () -> orderService.getOrderById(id));
             }
         }
     }
