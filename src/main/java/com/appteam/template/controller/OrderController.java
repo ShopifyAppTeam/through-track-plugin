@@ -5,11 +5,12 @@ import com.appteam.template.dto.OrderData;
 import com.appteam.template.service.DefaultOrderService;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
     @Resource(name = "orderService")
     private DefaultOrderService orderService;
@@ -18,17 +19,17 @@ public class OrderController {
     public List<OrderData> allOrders() {
         return orderService.getAllOrders();
     }
-    @PostMapping("/order")
+    @PostMapping
     public OrderData addOrder(final @RequestBody OrderData data) {
         return orderService.saveOrder(data);
     }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/{id}")
     public OrderData getOrder(final @PathVariable Long id) {
         return orderService.getOrderById(id);
     }
 
-    @DeleteMapping("/order/{id}")
+    @DeleteMapping("/{id}")
     public Boolean deleteOrder(final @PathVariable Long id) {
         return orderService.deleteOrder(id);
 
