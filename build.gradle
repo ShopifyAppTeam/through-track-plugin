@@ -6,7 +6,7 @@ buildscript {
 
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.0.0.RELEASE'
+	id 'org.springframework.boot' version '2.1.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'org.flywaydb.flyway' version '5.0.7'
 }
@@ -14,7 +14,7 @@ plugins {
 
 group = 'com.appteam'
 version = '0.0.1-SNAPSHOT'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 
 repositories {
