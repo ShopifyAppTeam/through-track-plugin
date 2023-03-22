@@ -9,8 +9,8 @@ plugins {
     id 'org.springframework.boot' version '2.1.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'org.flywaydb.flyway' version '5.0.7'
-}
 
+}
 
 group = 'com.appteam'
 version = '0.0.1-SNAPSHOT'
