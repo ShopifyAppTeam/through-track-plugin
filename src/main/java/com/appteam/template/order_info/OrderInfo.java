@@ -1,4 +1,4 @@
-package com.appteam.template.controller;
+package com.appteam.template.order_info;
 
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyOrder;
@@ -24,7 +24,7 @@ public class OrderInfo {
     }
 
     //@GetMapping("/order-info")
-   public JSONObject getOrderInfo() {
+   public JSONObject getOrder() {
         ShopifyOrder order = shopifySdk.getOrder(orderId);
         JSONObject orderInfoJson = new JSONObject();
         try {

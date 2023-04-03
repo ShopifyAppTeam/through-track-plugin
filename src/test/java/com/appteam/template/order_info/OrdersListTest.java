@@ -1,5 +1,6 @@
-package com.appteam.template.controller;
+package com.appteam.template.order_info;
 
+import com.appteam.template.order_info.OrdersList;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;

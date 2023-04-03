@@ -1,4 +1,4 @@
-package com.appteam.template.controller;
+package com.appteam.template.order_info;
 
 import com.shopify.ShopifySdk;
 import com.shopify.model.*;
