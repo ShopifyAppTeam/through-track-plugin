@@ -7,8 +7,10 @@ import java.util.Objects;
 public class OrderData {
     private Long id;
     private Long shipmentId;
+
     public OrderData() {
     }
+
     public OrderData(Long id, Long shipmentId) {
         this.id = id;
         this.shipmentId = shipmentId;
@@ -18,6 +20,7 @@ public class OrderData {
         id = order.getId();
         shipmentId = order.getShipmentId();
     }
+
     public Long getId() {
         return this.id;
     }
