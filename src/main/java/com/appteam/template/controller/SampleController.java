@@ -1,6 +1,6 @@
 package com.appteam.template.controller;
 
-import com.appteam.template.services.DHLService;
+import com.appteam.template.service.DHLService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +43,10 @@ public class SampleController {
     @GetMapping("/my-shipment-status")
     public String myShipmentStatus(@RequestParam String id) {
         return DHLservice.getShipmentInfo(id);
+    }
+
+    @GetMapping("/my-shipment-status")
+    public String emptyShipmentStatus() {
+        return DHLservice.getShipmentInfo(null);
     }
 }

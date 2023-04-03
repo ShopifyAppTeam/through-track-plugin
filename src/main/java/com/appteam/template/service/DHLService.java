@@ -1,4 +1,4 @@
-package com.appteam.template.services;
+package com.appteam.template.service;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;

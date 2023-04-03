@@ -1,6 +1,6 @@
 package com.appteam.template.controller;
 
-import com.appteam.template.services.DHLService;
+import com.appteam.template.service.DHLService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
