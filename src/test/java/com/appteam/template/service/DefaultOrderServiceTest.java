@@ -28,6 +28,7 @@ public class DefaultOrderServiceTest {
     OrderService orderService = new DefaultOrderService(orderRepositoryMock);
     Random gen = new Random();
     List<Order> orderList = new ArrayList<>();
+
     {
         Mockito.when(orderRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
         for (int iter = 0; iter < 100; iter++) {
@@ -39,6 +40,7 @@ public class DefaultOrderServiceTest {
         }
         Mockito.when(orderRepositoryMock.findAll()).thenReturn(orderList);
     }
+
     @Test
     public void saveOrder() {
         for (Order order : orderList) {
@@ -77,8 +79,8 @@ public class DefaultOrderServiceTest {
                 assertEquals(data, orderService.getOrderById(id));
             } else {
                 assertThrows(EntityNotFoundException.class,
-                             () -> orderService.getOrderById(id),
-                             "Order not found");
+                        () -> orderService.getOrderById(id),
+                        "Order not found");
             }
         }
     }

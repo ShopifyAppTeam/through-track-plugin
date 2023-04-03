@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Optional;
+
 @RestController
 public class SampleController {
     private final DHLService DHLservice;
@@ -41,12 +43,7 @@ public class SampleController {
      * Call to DHL API, that updates shipment status in database and returns it
      */
     @GetMapping("/my-shipment-status")
-    public String myShipmentStatus(@RequestParam String id) {
-        return DHLservice.getShipmentInfo(id);
-    }
-
-    @GetMapping("/my-shipment-status")
-    public String emptyShipmentStatus() {
-        return DHLservice.getShipmentInfo(null);
+    public String myShipmentStatus(@RequestParam Optional<String> id) {
+        return DHLservice.getShipmentInfo(id.orElse(null));
     }
 }

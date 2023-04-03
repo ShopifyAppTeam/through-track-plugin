@@ -21,7 +21,9 @@ public class DHLService {
                     .method("GET", java.net.http.HttpRequest.BodyPublishers.noBody())
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
+            String shipmentInfo = response.body();
+
+            return shipmentInfo;
         } catch (Exception exc) {
             return exc.getMessage();
         }
