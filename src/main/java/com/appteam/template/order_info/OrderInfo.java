@@ -1,5 +1,6 @@
 package com.appteam.template.order_info;
 
+import com.appteam.template.data.Order;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyOrder;
 import com.shopify.model.ShopifyShippingLine;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-//@RestController
 public class OrderInfo {
     private final String token; // API token, generated in store
     private final String subdomain;
@@ -23,8 +23,7 @@ public class OrderInfo {
         this.orderId = orderId;
     }
 
-    //@GetMapping("/order-info")
-   public JSONObject getOrder() {
+   public JSONObject getOrderJson() {
         ShopifyOrder order = shopifySdk.getOrder(orderId);
         JSONObject orderInfoJson = new JSONObject();
         try {
@@ -44,5 +43,17 @@ public class OrderInfo {
            orderInfoJson.put("Exception", exc.getMessage());
            return orderInfoJson;
         }
+    }
+
+    public static Order getOrderFromShopifyOrder(ShopifyOrder shopifyOrder) {
+        Order order = new Order();
+        order.setId(Long.valueOf(shopifyOrder.getId()));
+        order.setShipmentId(Long.valueOf(shopifyOrder.getShippingLines().get(0).getId()));
+        return order;
+    }
+
+    public Order getOrder() {
+        ShopifyOrder shopifyOrder = shopifySdk.getOrder(orderId);
+        return getOrderFromShopifyOrder(shopifyOrder);
     }
 }

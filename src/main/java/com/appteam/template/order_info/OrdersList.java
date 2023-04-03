@@ -1,9 +1,13 @@
 package com.appteam.template.order_info;
 
+import com.appteam.template.data.Order;
 import com.shopify.ShopifySdk;
 import com.shopify.model.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //@RestController
 public class OrdersList {
@@ -17,13 +21,12 @@ public class OrdersList {
         shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
     }
 
-    //@GetMapping("/store-orders")
-    public String getOrders() {
-        try {
-            ShopifyPage<ShopifyOrder> shopifyOrders = shopifySdk.getOrders();
-            return shopifyOrders.toString();
-        } catch (Exception exc) {
-            return exc.getMessage();
+    public ArrayList<Order> getOrdersList() {
+        ArrayList<Order> orders = new ArrayList<Order>();
+        ShopifyPage<ShopifyOrder> shopifyOrders = shopifySdk.getOrders();
+        for (ShopifyOrder shopifyOrder : shopifyOrders) {
+            orders.add(OrderInfo.getOrderFromShopifyOrder(shopifyOrder));
         }
+        return orders;
     }
 }
