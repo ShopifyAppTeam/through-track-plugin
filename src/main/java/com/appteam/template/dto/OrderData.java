@@ -18,6 +18,7 @@ public class OrderData {
         id = order.getId();
         service = order.getService();
     }
+
     public Long getId() {
         return this.id;
     }

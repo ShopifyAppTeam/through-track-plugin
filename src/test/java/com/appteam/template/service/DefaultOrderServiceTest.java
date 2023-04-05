@@ -3,29 +3,32 @@ package com.appteam.template.service;
 import com.appteam.template.data.Order;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.repository.OrderRepository;
+
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+
 import org.mockito.Mock;
-
-
 import org.mockito.Mockito;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import javax.persistence.EntityNotFoundException;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Map;
-import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class DefaultOrderServiceTest {
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class DefaultOrderServiceTest {
     @Mock
     OrderRepository orderRepositoryMock = Mockito.mock(OrderRepository.class);
     OrderService orderService = new DefaultOrderService(orderRepositoryMock);
     Random gen = new Random();
     List<Order> orderList = new ArrayList<>();
+
     {
         Mockito.when(orderRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
         for (int iter = 0; iter < 100; iter++) {
@@ -37,8 +40,9 @@ class DefaultOrderServiceTest {
         }
         Mockito.when(orderRepositoryMock.findAll()).thenReturn(orderList);
     }
+
     @Test
-    void saveOrder() {
+    public void saveOrder() {
         for (Order order : orderList) {
             OrderData data = new OrderData(order);
             assertEquals(data, orderService.saveOrder(data));
@@ -46,7 +50,7 @@ class DefaultOrderServiceTest {
     }
 
     @Test
-    void deleteOrder() {
+    public void deleteOrder() {
         for (Order order : orderList) {
             OrderData data = new OrderData(order);
             assertEquals(true, orderService.deleteOrder(data.getId()));
@@ -54,7 +58,7 @@ class DefaultOrderServiceTest {
     }
 
     @Test
-    void getAllOrders() {
+    public void getAllOrders() {
         List<OrderData> orders = orderService.getAllOrders();
         assertEquals(orderList.size(), orders.size());
         for (int iter = 0; iter < orderList.size(); iter++) {
@@ -63,8 +67,8 @@ class DefaultOrderServiceTest {
     }
 
     @Test
-    void getOrderById() {
-        Map<Long, Long>orderMap = new HashMap<>();
+    public void getOrderById() {
+        Map<Long, Long> orderMap = new HashMap<>();
         for (Order order : orderList) {
             orderMap.put(order.getId(), order.getId());
         }

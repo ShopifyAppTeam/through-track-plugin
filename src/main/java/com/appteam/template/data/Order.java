@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name="order", schema = "through-track-plugin_db")
+@Table(name = "order", schema = "through-track-plugin_db")
 public class Order {
     @Id
     @Column(name="id")
