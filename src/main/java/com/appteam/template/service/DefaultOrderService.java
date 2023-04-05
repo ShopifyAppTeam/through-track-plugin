@@ -46,17 +46,21 @@ public class DefaultOrderService implements OrderService {
         );
     }
 
+    @Override
+    public List<OrderData> getUserOrdersByStatus(String user, String status) {
+        return null;
+    }
+
     private Order populateOrderEntity(final OrderData data) {
         Order order = new Order();
         order.setId(data.getId());
-        order.setShipmentId(data.getShipmentId());
         return order;
     }
 
     private OrderData populateOrderData(final Order order) {
         OrderData data = new OrderData();
         data.setId(order.getId());
-        data.setShipmentId(order.getShipmentId());
         return data;
     }
+
 }

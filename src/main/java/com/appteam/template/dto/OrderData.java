@@ -6,17 +6,15 @@ import java.util.Objects;
 
 public class OrderData {
     private Long id;
-    private Long shipmentId;
+    private String service;
     public OrderData() {
     }
-    public OrderData(Long id, Long shipmentId) {
+    public OrderData(Long id) {
         this.id = id;
-        this.shipmentId = shipmentId;
     }
 
     public OrderData(Order order) {
         id = order.getId();
-        shipmentId = order.getShipmentId();
     }
     public Long getId() {
         return this.id;
@@ -26,24 +24,16 @@ public class OrderData {
         this.id = id;
     }
 
-    public Long getShipmentId() {
-        return shipmentId;
-    }
-
-    public void setShipmentId(Long shipmentId) {
-        this.shipmentId = shipmentId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderData orderData = (OrderData) o;
-        return Objects.equals(id, orderData.id) && Objects.equals(shipmentId, orderData.shipmentId);
+        return Objects.equals(id, orderData.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, shipmentId);
+        return Objects.hash(id);
     }
 }

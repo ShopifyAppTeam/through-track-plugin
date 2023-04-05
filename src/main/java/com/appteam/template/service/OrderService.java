@@ -9,4 +9,6 @@ public interface OrderService {
     Boolean deleteOrder(final Long orderId);
     List<OrderData> getAllOrders();
     OrderData getOrderById(final Long id);
+
+    List<OrderData> getUserOrdersByStatus(String user, String status);
 }
