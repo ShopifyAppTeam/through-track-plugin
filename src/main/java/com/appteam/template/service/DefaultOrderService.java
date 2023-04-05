@@ -49,14 +49,14 @@ public class DefaultOrderService implements OrderService {
     private Order populateOrderEntity(final OrderData data) {
         Order order = new Order();
         order.setId(data.getId());
-        order.setShipmentId(data.getShipmentId());
+        order.setService(data.getService());
         return order;
     }
 
     private OrderData populateOrderData(final Order order) {
         OrderData data = new OrderData();
         data.setId(order.getId());
-        data.setShipmentId(order.getShipmentId());
+        data.setService(order.getService());
         return data;
     }
 }
