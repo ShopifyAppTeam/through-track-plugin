@@ -1,4 +1,5 @@
-package com.appteam.template.oauth;
+
+package com.appteam.template.service;
 
 import com.appteam.template.data.Provider;
 import com.appteam.template.data.User;

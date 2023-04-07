@@ -61,8 +61,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.flywaydb:flyway-core'
-	runtimeOnly 'org.postgresql:postgresql'
 
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security.oauth:spring-security-oauth2'
@@ -75,14 +73,27 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compile group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.1.0.RELEASE'
 
+    implementation 'org.javassist:javassist:3.25.0-GA'
+
 
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mockito:mockito-core:1.10.19'
+
+    compile 'org.flywaydb:flyway-core'
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 flyway {
     url = 'jdbc:postgresql://localhost:5432/orders'
+    user = 'postgres'
+    password = 'pswd'
+    schemas = ['through-track-plugin_db']
+    locations = ['filesystem:.src/main/resources/db/migration']
+}
+
+flyway{
+    url = 'jdbc:postgresql://localhost:5432/users'
     user = 'postgres'
     password = 'pswd'
     schemas = ['through-track-plugin_db']
