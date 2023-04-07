@@ -6,19 +6,17 @@ import java.util.Objects;
 
 public class OrderData {
     private Long id;
-    private Long shipmentId;
-
+    private String service;
     public OrderData() {
     }
-
-    public OrderData(Long id, Long shipmentId) {
+    public OrderData(Long id, String service) {
         this.id = id;
-        this.shipmentId = shipmentId;
+        this.service = service;
     }
 
     public OrderData(Order order) {
         id = order.getId();
-        shipmentId = order.getShipmentId();
+        service = order.getService();
     }
 
     public Long getId() {
@@ -28,13 +26,12 @@ public class OrderData {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Long getShipmentId() {
-        return shipmentId;
+    public String getService() {
+        return service;
     }
 
-    public void setShipmentId(Long shipmentId) {
-        this.shipmentId = shipmentId;
+    public void setService(String service) {
+        this.service = service;
     }
 
     @Override
@@ -42,11 +39,11 @@ public class OrderData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderData orderData = (OrderData) o;
-        return Objects.equals(id, orderData.id) && Objects.equals(shipmentId, orderData.shipmentId);
+        return Objects.equals(id, orderData.id) && Objects.equals(service, orderData.service);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, shipmentId);
+        return Objects.hash(id, service);
     }
 }
