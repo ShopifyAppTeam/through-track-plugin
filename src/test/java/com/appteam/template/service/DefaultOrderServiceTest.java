@@ -32,7 +32,7 @@ public class DefaultOrderServiceTest {
     {
         Mockito.when(orderRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
         for (int iter = 0; iter < 100; iter++) {
-            OrderData orderData = new OrderData(gen.nextLong(), gen.nextLong());
+            OrderData orderData = new OrderData(gen.nextLong(), "");
             Order order = new Order(orderData);
             orderList.add(order);
             Mockito.when(orderRepositoryMock.save(order)).thenReturn(order);
@@ -70,12 +70,12 @@ public class DefaultOrderServiceTest {
     public void getOrderById() {
         Map<Long, Long> orderMap = new HashMap<>();
         for (Order order : orderList) {
-            orderMap.put(order.getId(), order.getShipmentId());
+            orderMap.put(order.getId(), order.getId());
         }
         for (int iter = 0; iter < 50; iter++) {
             Long id = gen.nextLong();
             if (orderMap.containsKey(id)) {
-                OrderData data = new OrderData(id, orderMap.get(id));
+                OrderData data = new OrderData(id, "");
                 assertEquals(data, orderService.getOrderById(id));
             } else {
                 assertThrows(EntityNotFoundException.class,

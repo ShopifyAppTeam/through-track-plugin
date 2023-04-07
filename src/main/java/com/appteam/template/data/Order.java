@@ -1,8 +1,6 @@
 package com.appteam.template.data;
 
-
 import com.appteam.template.dto.OrderData;
-
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,22 +14,19 @@ import java.util.Objects;
 @Table(name = "order", schema = "through-track-plugin_db")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name="id")
     private Long id;
-    @Column(name = "shipmentid")
-    private Long shipmentId;
 
+    @Column(name="service")
+    private String service;
     public Order() {
     }
-
-    public Order(Long shipmentId) {
-        this.shipmentId = shipmentId;
+    public Order(Long id) {
+        this.id = id;
     }
 
     public Order(OrderData data) {
         id = data.getId();
-        shipmentId = data.getShipmentId();
     }
 
     public Long getId() {
@@ -42,24 +37,24 @@ public class Order {
         this.id = id;
     }
 
-    public Long getShipmentId() {
-        return shipmentId;
+    public String getService() {
+        return service;
     }
 
-    public void setShipmentId(Long shipmentId) {
-        this.shipmentId = shipmentId;
+    public void setService(String service) {
+        this.service = service;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Order)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(shipmentId, order.shipmentId);
+        return Objects.equals(id, order.id) && Objects.equals(service, order.service);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, shipmentId);
+        return Objects.hash(id, service);
     }
 }
