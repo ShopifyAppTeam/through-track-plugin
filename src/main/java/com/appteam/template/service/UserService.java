@@ -3,13 +3,15 @@ package com.appteam.template.service;
 
 import com.appteam.template.data.Provider;
 import com.appteam.template.data.User;
+import com.appteam.template.dto.UserData;
 import com.appteam.template.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
-
     @Autowired
     private UserRepository repo;
 

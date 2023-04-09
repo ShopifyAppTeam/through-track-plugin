@@ -1,6 +1,5 @@
 package com.appteam.template.oauth;
 
-
 import com.appteam.template.service.CustomOAuth2UserService;
 import com.appteam.template.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

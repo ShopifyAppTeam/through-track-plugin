@@ -1,7 +1,5 @@
 package com.appteam.template.data;
 
-
-
 import com.appteam.template.dto.UserData;
 
 import javax.persistence.Column;
