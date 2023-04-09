@@ -1,6 +1,7 @@
 package com.appteam.template.order_info;
 
 import com.appteam.template.data.Order;
+import com.appteam.template.dto.OrderData;
 import com.appteam.template.order_info.OrderInfo;
 import com.shopify.model.ShopifyOrder;
 import com.shopify.model.ShopifyShippingLine;
@@ -18,22 +19,22 @@ class OrderInfoTest {
 
     @Mock
     OrderInfo orderInfoMock = Mockito.mock(OrderInfo.class);
-    JSONObject emptyOrderJson = new JSONObject();
-    Order emptyOrder = new Order();
+    JSONObject emptyOrderDataJson = new JSONObject();
+    OrderData emptyOrderData = new OrderData();
 
     {
-        Mockito.when(orderInfoMock.getOrderJson()).thenReturn(emptyOrderJson);
-        Mockito.when(orderInfoMock.getOrder()).thenReturn(emptyOrder);
+        Mockito.when(orderInfoMock.getOrderDataJson()).thenReturn(emptyOrderDataJson);
+        Mockito.when(orderInfoMock.getOrderData()).thenReturn(emptyOrderData);
     }
 
     @Test
     void getOrderJsonTest() {
-        assertEquals(orderInfoMock.getOrderJson(), emptyOrderJson);
+        assertEquals(orderInfoMock.getOrderDataJson(), emptyOrderDataJson);
     }
 
     @Test
     void getOrderTest() {
-        assertEquals(orderInfoMock.getOrder(), emptyOrder);
+        assertEquals(orderInfoMock.getOrderData(), emptyOrderData);
     }
 
     @Test
@@ -51,12 +52,8 @@ class OrderInfoTest {
             shopifyOrders.add(e);
         }
         for (ShopifyOrder shopifyOrder : shopifyOrders) {
-            assertEquals(shopifyOrder.getId(), OrderInfo.getOrderFromShopifyOrder(shopifyOrder).getId().toString());
-            assertEquals(shopifyOrder.getShippingLines().get(0).getId(), OrderInfo.getOrderFromShopifyOrder(shopifyOrder).getShipmentId().toString());
+            assertEquals(shopifyOrder.getId(), OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder).getId().toString());
+            assertEquals(shopifyOrder.getShippingLines().get(0).getId(), OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder).getShipmentId().toString());
         }
-
-
     }
-
-
 }

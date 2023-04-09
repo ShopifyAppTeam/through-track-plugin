@@ -1,6 +1,7 @@
 package com.appteam.template.order_info;
 
 import com.appteam.template.data.Order;
+import com.appteam.template.dto.OrderData;
 import com.appteam.template.order_info.OrdersList;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrdersListTest {
     @Mock
     OrdersList ordersListMock = Mockito.mock(OrdersList.class);
-    ArrayList<Order> emptyOrdersList = new ArrayList<Order>();
+    ArrayList<OrderData> emptyOrdersDataList = new ArrayList<OrderData>();
     {
-        Mockito.when(ordersListMock.getOrdersList()).thenReturn(emptyOrdersList);
+        Mockito.when(ordersListMock.getOrdersDataList()).thenReturn(emptyOrdersDataList);
     }
 
     @Test
-    void getOrders() {
-        assertEquals(emptyOrdersList, ordersListMock.getOrdersList());
+    void getOrdersData() {
+        assertEquals(emptyOrdersDataList, ordersListMock.getOrdersDataList());
     }
 }

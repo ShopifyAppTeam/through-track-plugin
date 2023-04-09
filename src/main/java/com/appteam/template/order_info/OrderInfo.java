@@ -1,6 +1,7 @@
 package com.appteam.template.order_info;
 
 import com.appteam.template.data.Order;
+import com.appteam.template.dto.OrderData;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyOrder;
 import com.shopify.model.ShopifyShippingLine;
@@ -23,7 +24,7 @@ public class OrderInfo {
         this.orderId = orderId;
     }
 
-   public JSONObject getOrderJson() {
+   public JSONObject getOrderDataJson() {
         ShopifyOrder order = shopifySdk.getOrder(orderId);
         JSONObject orderInfoJson = new JSONObject();
         try {
@@ -45,15 +46,15 @@ public class OrderInfo {
         }
     }
 
-    public static Order getOrderFromShopifyOrder(ShopifyOrder shopifyOrder) {
-        Order order = new Order();
-        order.setId(Long.valueOf(shopifyOrder.getId()));
-        order.setShipmentId(Long.valueOf(shopifyOrder.getShippingLines().get(0).getId()));
-        return order;
+    public static OrderData getOrderDataFromShopifyOrder(ShopifyOrder shopifyOrder) {
+        OrderData orderData = new OrderData();
+        orderData.setId(Long.valueOf(shopifyOrder.getId()));
+        orderData.setShipmentId(Long.valueOf(shopifyOrder.getShippingLines().get(0).getId()));
+        return orderData;
     }
 
-    public Order getOrder() {
+    public OrderData getOrderData() {
         ShopifyOrder shopifyOrder = shopifySdk.getOrder(orderId);
-        return getOrderFromShopifyOrder(shopifyOrder);
+        return getOrderDataFromShopifyOrder(shopifyOrder);
     }
 }
