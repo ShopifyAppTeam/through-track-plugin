@@ -1,7 +1,7 @@
 package com.appteam.template.controller;
 
 import com.appteam.template.dto.UserData;
-import com.appteam.template.db.user.service.UserService;
+import com.appteam.template.service.UserService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
