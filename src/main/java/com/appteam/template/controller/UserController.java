@@ -17,16 +17,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     @Resource(name = "userService")
     private UserService userService;
 
     @GetMapping
-    public List<UserData> allOrders() {
+    public List<UserData> allUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping
-    public UserData addOrder(final @RequestBody UserData data) {
+    public UserData addUser(final @RequestBody UserData data) {
         return userService.saveUser(data);
     }
 
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteOrder(final @PathVariable Long id) {
+    public Boolean deleteUser(final @PathVariable Long id) {
         return userService.deleteUser(id);
     }
 }
