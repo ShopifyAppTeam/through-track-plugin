@@ -25,6 +25,16 @@ public class DefaultOrderService implements OrderService {
         return populateOrderData(orderRepository.save(order)); // концептуально
     }
 
+//    @Override        repository.save() does the same
+//    public OrderData updateOrder(OrderData orderData) {
+//        Order order = populateOrderEntity(orderData);
+//        if (orderRepository.updateOrderStatus(orderData.getId(), orderData.getStatus()) == 0) {
+//            return populateOrderData(orderRepository.save(order));
+//        } else {
+//            return populateOrderData(order);
+//        }
+//    }
+
     @Override
     public Boolean deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
@@ -33,9 +43,7 @@ public class DefaultOrderService implements OrderService {
 
     public List<OrderData> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
-        List<OrderData> data = new ArrayList<>();
-        orders.forEach(order -> data.add(populateOrderData(order)));
-        return data;
+        return convertOrderList(orders);
     }
 
     @Override
@@ -48,18 +56,30 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public List<OrderData> getUserOrdersByStatus(String user, String status) {
-        return null;
+        List<Order> orders = orderRepository.findUserOrdersByStatus(user, status);
+        return convertOrderList(orders);
     }
 
+    private List<OrderData> convertOrderList(List<Order> orders) {
+        List<OrderData> data = new ArrayList<>();
+        orders.forEach(order -> data.add(populateOrderData(order)));
+        return data;
+    }
     private Order populateOrderEntity(final OrderData data) {
         Order order = new Order();
         order.setId(data.getId());
+        order.setService(data.getService());
+        order.setMerchant(data.getMerchant());
+        order.setStatus(data.getStatus());
         return order;
     }
 
     private OrderData populateOrderData(final Order order) {
         OrderData data = new OrderData();
         data.setId(order.getId());
+        data.setService(order.getService());
+        data.setStatus(order.getStatus());
+        data.setMerchant(order.getMerchant());
         return data;
     }
 

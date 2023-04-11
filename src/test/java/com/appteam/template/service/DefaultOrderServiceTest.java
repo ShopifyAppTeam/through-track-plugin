@@ -21,15 +21,20 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DefaultOrderServiceTest {
+
+    private final int SEED = 78123;
+    private final String status = "status";
+    private final String merchant = "merchant";
+    private final String service = "service";
     @Mock
     OrderRepository orderRepositoryMock = Mockito.mock(OrderRepository.class);
     OrderService orderService = new DefaultOrderService(orderRepositoryMock);
-    Random gen = new Random();
+    Random gen = new Random(SEED);
     List<Order> orderList = new ArrayList<>();
     {
         Mockito.when(orderRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
         for (int iter = 0; iter < 100; iter++) {
-            OrderData orderData = new OrderData(gen.nextLong());
+            OrderData orderData = new OrderData(gen.nextLong(), service, merchant + iter / 10, status);
             Order order = new Order(orderData);
             orderList.add(order);
             Mockito.when(orderRepositoryMock.save(order)).thenReturn(order);
@@ -71,7 +76,7 @@ class DefaultOrderServiceTest {
         for (int iter = 0; iter < 50; iter++) {
             Long id = gen.nextLong();
             if (orderMap.containsKey(id)) {
-                OrderData data = new OrderData(id);
+                OrderData data = new OrderData(id, service, merchant, status);
                 assertEquals(data, orderService.getOrderById(id));
             } else {
                 assertThrows(EntityNotFoundException.class,

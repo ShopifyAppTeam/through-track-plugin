@@ -42,7 +42,7 @@ public class OrderStatusNotificationService implements EmailService {
 
     @Value("${test.receiver}")
     private String testUser;
-    @Scheduled(fixedRate = 1000000)
+    // @Scheduled(fixedRate = )
     public void notifyUserWithNotSent() {
         String status = "unshipped";
         sendOrderStatuses(testUser, status);
