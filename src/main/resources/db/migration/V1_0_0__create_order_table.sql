@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS "order" (
 
 CREATE TABLE IF NOT EXISTS "user" (
     id bigint PRIMARY KEY,
-    service text
+    username text,
+    email text,
+    provider int
 );
