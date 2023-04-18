@@ -7,17 +7,18 @@ import java.util.Objects;
 
 public class UserData {
     private Long id;
-    private String userName;
     private String email;
+    private String password;
+    private boolean enabled = false;
     private Provider provider;
     private int updateTime;
     private int ordersSendTime;
     public UserData() {
     }
-    public UserData(Long id, String userName, String email, Provider provider, int updateTime, int ordersSendTime) {
+    public UserData(Long id, String email, String password, Provider provider, int updateTime, int ordersSendTime) {
         this.id = id;
-        this.userName = userName;
         this.email = email;
+        this.password = password;
         this.provider = provider;
         this.updateTime = updateTime;
         this.ordersSendTime = ordersSendTime;
@@ -25,8 +26,9 @@ public class UserData {
 
     public UserData(User user) {
         id = user.getId();
-        userName = user.getUserName();
         email = user.getEmail();
+        password = user.getPassword();
+        enabled = user.isEnabled();
         provider = user.getProvider();
         updateTime = user.getUpdateTime();
         ordersSendTime = user.getOrdersSendTime();
@@ -39,15 +41,6 @@ public class UserData {
         this.id = id;
     }
 
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getEmail() {
         return this.email;
     }
@@ -56,6 +49,21 @@ public class UserData {
         this.email = email;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public Provider getProvider() {
         return provider;
@@ -72,7 +80,6 @@ public class UserData {
     public void setUpdateTime(int updateTime) {
         this.updateTime = updateTime;
     }
-
 
     public int getOrdersSendTime() {
         return ordersSendTime;

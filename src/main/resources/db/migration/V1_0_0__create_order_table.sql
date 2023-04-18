@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS "user" (
     id bigint PRIMARY KEY,
     username text,
     email text,
+    password text,
+    enabled boolean,
     provider int,
     update_time int,
     orders_send_time int

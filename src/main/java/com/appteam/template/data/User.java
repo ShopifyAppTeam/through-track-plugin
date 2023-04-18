@@ -15,14 +15,17 @@ import javax.persistence.Enumerated;
 @Table(name="users", schema = "through-track-plugin_db")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
-    @Column(name="username")
-    private String userName;
 
     @Column(name="email")
     private String email;
+
+    @Column(name="password")
+    private String password;
+
+    @Column(name="enabled")
+    private boolean enabled;
 
     @Enumerated(EnumType.STRING)
     @Column(name="provider")
@@ -38,7 +41,7 @@ public class User {
     }
 
     public User(UserData user) {
-        id = user.getId();
+        id = user.getId(); // something strange, shouldn't be all fields?
     }
 
     public Long getId() {
@@ -49,20 +52,28 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getEmail() {
         return this.email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Provider getProvider() {

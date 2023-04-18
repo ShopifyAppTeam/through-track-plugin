@@ -61,7 +61,8 @@ public class UserService {
         user.setId(data.getId());
         user.setProvider(data.getProvider());
         user.setEmail(data.getEmail());
-        user.setUserName(data.getUserName());
+        user.setPassword(data.getPassword());
+        user.setEnabled(data.isEnabled());
         user.setOrdersSendTime(data.getOrdersSendTime());
         user.setUpdateTime(data.getUpdateTime());
         return user;
@@ -70,9 +71,10 @@ public class UserService {
     private UserData populateUserData(final User user) {
         UserData data = new UserData();
         data.setId(user.getId());
-        data.setProvider(user.getProvider());
         data.setEmail(user.getEmail());
-        data.setUserName(user.getUserName());
+        data.setPassword(user.getPassword());
+        data.setEnabled(user.isEnabled());
+        data.setProvider(user.getProvider());
         data.setOrdersSendTime(user.getOrdersSendTime());
         data.setUpdateTime(user.getUpdateTime());
         return data;
