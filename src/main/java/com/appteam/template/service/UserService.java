@@ -62,6 +62,8 @@ public class UserService {
         user.setProvider(data.getProvider());
         user.setEmail(data.getEmail());
         user.setUserName(data.getUserName());
+        user.setOrdersSendTime(data.getOrdersSendTime());
+        user.setUpdateTime(data.getUpdateTime());
         return user;
     }
 
@@ -71,6 +73,8 @@ public class UserService {
         data.setProvider(user.getProvider());
         data.setEmail(user.getEmail());
         data.setUserName(user.getUserName());
+        data.setOrdersSendTime(user.getOrdersSendTime());
+        data.setUpdateTime(user.getUpdateTime());
         return data;
     }
 

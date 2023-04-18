@@ -28,6 +28,12 @@ public class User {
     @Column(name="provider")
     private Provider provider;
 
+    @Column(name="update_time")
+    private int updateTime;
+
+    @Column(name="orders_send_time")
+    private int ordersSendTime;
+
     public User() {
     }
 
@@ -65,6 +71,22 @@ public class User {
 
     public void setProvider(Provider provider) {
         this.provider = provider;
+    }
+
+    public int getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(int updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public int getOrdersSendTime() {
+        return ordersSendTime;
+    }
+
+    public void setOrdersSendTime(int ordersSendTime) {
+        this.ordersSendTime = ordersSendTime;
     }
 
 
