@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS "order" (
 );
 
 CREATE TABLE IF NOT EXISTS "user" (
-    id bigint PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_shopify bigint,
     username text,
     email text,
@@ -16,5 +16,6 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 
 CREATE TABLE IF NOT EXISTS "roles" (
-    role_id bigint PRIMARY KEY
+    role_id bigint PRIMARY KEY,
+    user_id bigint
 );

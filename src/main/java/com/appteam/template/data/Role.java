@@ -3,36 +3,35 @@ package com.appteam.template.data;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Set;
 
-/*
+
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", schema = "through-track-plugin_db")
 public class Role {
-    @Id
-    @Column(name = "role_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@Column(name = "role_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    private String name;
+	private String name;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
-*/
+/*
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
@@ -83,3 +82,4 @@ public class Role implements GrantedAuthority {
         return getName();
     }
 }
+*/

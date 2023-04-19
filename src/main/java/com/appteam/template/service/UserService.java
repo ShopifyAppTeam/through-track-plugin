@@ -28,23 +28,27 @@ public class UserService implements UserDetailsService {
     @Autowired
     RoleRepository roleRepository;
 
-        public void processOAuthPostLogin(String email) {
-            User existUser = userRepository.getUserByEmail(email);
-            if (existUser == null) {
-                User newUser = new User();
-                newUser.setEmail(email);
-                newUser.setProvider(Provider.GOOGLE);
-                newUser.setEnabled(true);
-                userRepository.save(newUser);
-            }
+    public void processOAuthPostLogin(String email) {
+        System.out.println("processOAuth2Login invoked");
+        User existUser = userRepository.getUserByEmail(email);
+        if (existUser == null) {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setProvider(Provider.GOOGLE);
+            newUser.setEnabled(true);
+            userRepository.save(newUser);
+            System.out.println("added new user");
         }
+    }
+    public UserService(){}
+
     public UserService(UserRepository userRepositoryMock) {
         userRepository = userRepositoryMock;
     }
 
     public UserData saveUser(UserData userData) {
         User user = populateUserEntity(userData);
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        //user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         return populateUserData(userRepository.save(user));
     }
 

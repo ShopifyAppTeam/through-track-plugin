@@ -20,12 +20,17 @@ public class UserController {
 
     @Resource(name = "userService")
     private UserService userService;
-
-    @GetMapping
+/*
+    @GetMapping("/allUsers")
     public List<UserData> allUsers() {
         return userService.getAllUsers();
     }
+*/
 
+    @GetMapping("/allUsers")
+    public String allUsers() {
+        return userService.getAllUsers().toString();
+    }
     @PostMapping
     public UserData addUser(final @RequestBody UserData data) {
         return userService.saveUser(data);
