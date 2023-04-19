@@ -13,3 +13,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     update_time int,
     orders_send_time int
 );
+
+CREATE TABLE IF NOT EXISTS "roles" (
+    role_id bigint PRIMARY KEY
+);

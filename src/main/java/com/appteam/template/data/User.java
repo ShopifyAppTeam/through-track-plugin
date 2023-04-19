@@ -2,17 +2,13 @@ package com.appteam.template.data;
 
 import com.appteam.template.dto.UserData;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import java.util.Set;
+
 @Entity
-@Table(name="users", schema = "through-track-plugin_db")
+@Table(name="user", schema = "through-track-plugin_db")
 public class User {
     @Id
     @Column(name="id")
@@ -36,6 +32,14 @@ public class User {
 
     @Column(name="orders_send_time")
     private int ordersSendTime;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -100,6 +104,13 @@ public class User {
         this.ordersSendTime = ordersSendTime;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     @Override
     public boolean equals(Object o) {
