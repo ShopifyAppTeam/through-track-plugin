@@ -11,6 +11,7 @@ import java.util.Set;
 
 public class UserData {
     private Long id;
+    private Long idShopify;
     private String email;
     private String password;
     private boolean enabled = false;
@@ -21,9 +22,11 @@ public class UserData {
     private Set<Role> roles = new HashSet<>();
     public UserData() {
     }
-    public UserData(Long id, String email, String password, Provider provider,
-                    int updateTime, int ordersSendTime, Set<Role> roles) {
+
+    public UserData(Long id, Long idShopify, String email, String password, Provider provider, int updateTime, int ordersSendTime, Set<Role> roles) {
+
         this.id = id;
+        this.idShopify = idShopify;
         this.email = email;
         this.password = password;
         this.provider = provider;
@@ -34,6 +37,7 @@ public class UserData {
 
     public UserData(User user) {
         id = user.getId();
+        idShopify = user.getIdShopify();
         email = user.getEmail();
         password = user.getPassword();
         enabled = user.isEnabled();
@@ -48,6 +52,14 @@ public class UserData {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdShopify() {
+        return this.idShopify;
+    }
+
+    public void setIdShopify(Long idShopify) {
+        this.idShopify = idShopify;
     }
 
     public String getEmail() {

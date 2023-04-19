@@ -11,8 +11,12 @@ import java.util.Set;
 @Table(name="user", schema = "through-track-plugin_db")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
+
+    @Column(name="id_shopify")
+    private Long idShopify;
 
     @Column(name="email")
     private String email;
@@ -54,6 +58,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdShopify() {
+        return this.idShopify;
+    }
+
+    public void setIdShopify(Long idShopify) {
+        this.idShopify = idShopify;
     }
 
     public String getEmail() {
