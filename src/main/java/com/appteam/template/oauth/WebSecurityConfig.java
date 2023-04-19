@@ -76,7 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         userService.processOAuthPostLogin(oauthUser.getEmail());
 
-                        response.sendRedirect("/list");
+                        // response.sendRedirect("/list");
+                        response.sendRedirect("/");
                     }
                 })
                 //.defaultSuccessUrl("/list")
