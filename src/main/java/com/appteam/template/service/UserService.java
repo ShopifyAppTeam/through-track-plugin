@@ -59,6 +59,7 @@ public class UserService {
     private User populateUserEntity(final UserData data) {
         User user = new User();
         user.setId(data.getId());
+        user.setIdShopify(data.getIdShopify());
         user.setProvider(data.getProvider());
         user.setEmail(data.getEmail());
         user.setPassword(data.getPassword());
@@ -71,6 +72,7 @@ public class UserService {
     private UserData populateUserData(final User user) {
         UserData data = new UserData();
         data.setId(user.getId());
+        data.setIdShopify(user.getIdShopify());
         data.setEmail(user.getEmail());
         data.setPassword(user.getPassword());
         data.setEnabled(user.isEnabled());
