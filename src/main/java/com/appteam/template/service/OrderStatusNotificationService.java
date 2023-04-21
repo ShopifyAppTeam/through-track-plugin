@@ -1,5 +1,6 @@
 package com.appteam.template.service;
 
+import com.appteam.template.data.Order;
 import com.appteam.template.dto.OrderData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,11 @@ public class OrderStatusNotificationService implements EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    public OrderStatusNotificationService(JavaMailSender javaMailSenderMock, OrderService orderServiceMock) {
+        javaMailSender = javaMailSenderMock;
+        orderService = orderServiceMock;
+    }
+
     private static final String NOREPLY_TO = "noreply@test.com";
     @Resource(name = "orderService")
     private OrderService orderService;
@@ -33,10 +39,11 @@ public class OrderStatusNotificationService implements EmailService {
 
     public void sendOrderStatuses(String user, String status) {
         List<OrderData> orders = orderService.getUserOrdersByStatus(user, status);
-        StringBuilder textBuilder = new StringBuilder();
-        if (orders != null) {
-            orders.forEach(order -> textBuilder.append(order.getId()).append("\n"));
+        if (orders.isEmpty()) {
+            return;
         }
+        StringBuilder textBuilder = new StringBuilder();
+        orders.forEach(order -> textBuilder.append(order.getId()).append("\n"));
         sendSimpleMessage(user, "Orders with status: " + status + "\n", textBuilder.toString());
     }
 
@@ -44,8 +51,9 @@ public class OrderStatusNotificationService implements EmailService {
     private String testUser;
     // @Scheduled(fixedRate = )
     public void notifyUserWithNotSent() {
+        List<String> users = null; // getting users emails from User Table
         String status = "unshipped";
-        sendOrderStatuses(testUser, status);
+        users.forEach(user -> sendOrderStatuses(user, status));
     }
 
 }

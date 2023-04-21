@@ -25,16 +25,6 @@ public class DefaultOrderService implements OrderService {
         return populateOrderData(orderRepository.save(order)); // концептуально
     }
 
-//    @Override        repository.save() does the same
-//    public OrderData updateOrder(OrderData orderData) {
-//        Order order = populateOrderEntity(orderData);
-//        if (orderRepository.updateOrderStatus(orderData.getId(), orderData.getStatus()) == 0) {
-//            return populateOrderData(orderRepository.save(order));
-//        } else {
-//            return populateOrderData(order);
-//        }
-//    }
-
     @Override
     public Boolean deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);

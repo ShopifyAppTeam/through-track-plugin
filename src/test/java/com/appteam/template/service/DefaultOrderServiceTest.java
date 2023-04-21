@@ -34,7 +34,7 @@ class DefaultOrderServiceTest {
     {
         Mockito.when(orderRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
         for (int iter = 0; iter < 100; iter++) {
-            OrderData orderData = new OrderData(gen.nextLong(), service, merchant + iter / 10, status);
+            OrderData orderData = new OrderData(gen.nextLong(), service, merchant + iter / 10, status + iter / 5);
             Order order = new Order(orderData);
             orderList.add(order);
             Mockito.when(orderRepositoryMock.save(order)).thenReturn(order);
