@@ -17,7 +17,7 @@ public class OrderInfo {
     private final String orderId;
     final ShopifySdk shopifySdk;
 
-   OrderInfo(String token, String subdomain, String orderId) {
+   public OrderInfo(String token, String subdomain, String orderId) {
         this.token = token;
         this.subdomain = subdomain;
         shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
@@ -49,7 +49,10 @@ public class OrderInfo {
     public static OrderData getOrderDataFromShopifyOrder(ShopifyOrder shopifyOrder) {
         OrderData orderData = new OrderData();
         orderData.setId(Long.valueOf(shopifyOrder.getId()));
-        orderData.setShipmentId(Long.valueOf(shopifyOrder.getShippingLines().get(0).getId()));
+
+        if (shopifyOrder.getShippingLines().size() > 0) {
+            orderData.setShipmentId(Long.valueOf(shopifyOrder.getShippingLines().get(0).getId()));
+        }
         return orderData;
     }
 

@@ -15,14 +15,14 @@ public class OrdersList {
     private final String subdomain;
     final ShopifySdk shopifySdk;
 
-    OrdersList(String token, String subdomain) {
+    public OrdersList(String token, String subdomain) {
         this.token = token;
         this.subdomain = subdomain;
         shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
     }
 
     public ArrayList<OrderData> getOrdersDataList() {
-        ArrayList<OrderData> orders = new ArrayList<OrderData>();
+        ArrayList<OrderData> orders = new ArrayList<>();
         ShopifyPage<ShopifyOrder> shopifyOrders = shopifySdk.getOrders();
         for (ShopifyOrder shopifyOrder : shopifyOrders) {
             orders.add(OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder));
