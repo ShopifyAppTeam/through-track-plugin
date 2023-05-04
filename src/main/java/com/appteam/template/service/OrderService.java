@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface OrderService {
     OrderData saveOrder(OrderData orderData);
+    // OrderData updateOrder(OrderData orderData);
 
     Boolean deleteOrder(final Long orderId);
 
     List<OrderData> getAllOrders();
 
     OrderData getOrderById(final Long id);
+    List<OrderData> getUserOrdersByStatus(String user, String status);
 }

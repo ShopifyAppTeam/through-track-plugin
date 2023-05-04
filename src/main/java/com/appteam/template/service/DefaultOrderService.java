@@ -33,9 +33,7 @@ public class DefaultOrderService implements OrderService {
 
     public List<OrderData> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
-        List<OrderData> data = new ArrayList<>();
-        orders.forEach(order -> data.add(populateOrderData(order)));
-        return data;
+        return convertOrderList(orders);
     }
 
     @Override
@@ -46,10 +44,23 @@ public class DefaultOrderService implements OrderService {
         );
     }
 
+    @Override
+    public List<OrderData> getUserOrdersByStatus(String user, String status) {
+        List<Order> orders = orderRepository.findUserOrdersByStatus(user, status);
+        return convertOrderList(orders);
+    }
+
+    private List<OrderData> convertOrderList(List<Order> orders) {
+        List<OrderData> data = new ArrayList<>();
+        orders.forEach(order -> data.add(populateOrderData(order)));
+        return data;
+    }
     private Order populateOrderEntity(final OrderData data) {
         Order order = new Order();
         order.setId(data.getId());
         order.setService(data.getService());
+        order.setMerchant(data.getMerchant());
+        order.setStatus(data.getStatus());
         return order;
     }
 
@@ -57,6 +68,9 @@ public class DefaultOrderService implements OrderService {
         OrderData data = new OrderData();
         data.setId(order.getId());
         data.setService(order.getService());
+        data.setStatus(order.getStatus());
+        data.setMerchant(order.getMerchant());
         return data;
     }
+
 }
