@@ -2,7 +2,6 @@ package com.appteam.template.data;
 
 import com.appteam.template.dto.OrderData;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +9,7 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name="order", schema = "through-track-plugin_db")
+@Table(name = "order", schema = "through-track-plugin_db")
 public class Order {
     @Id
     @Column(name="id")
@@ -23,6 +22,8 @@ public class Order {
     @Column(name="merchant")
     private String merchant;
 
+    @Column(name="service")
+    private String service;
     public Order() {
     }
 
