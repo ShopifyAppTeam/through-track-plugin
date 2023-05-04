@@ -10,17 +10,15 @@ import java.util.Properties;
 
 @Component
 public class EmailConfiguration {
-
     @Value("${spring.mail.username}")
     private String mailUsername;
     @Value("${spring.mail.password}")
     private String mailPassword;
-
     @Value("${spring.mail.host}")
     private String host;
-
     @Value("${spring.mail.port}")
     private int port;
+
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

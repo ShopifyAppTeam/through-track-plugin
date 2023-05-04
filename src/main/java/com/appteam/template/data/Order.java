@@ -22,14 +22,8 @@ public class Order {
     @Column(name="merchant")
     private String merchant;
 
-    @Column(name="service")
-    private String service;
     public Order() {
     }
-
-//    public Order(Long id) {
-//        this.id = id;
-//    }
     public Order(OrderData data) {
         id = data.getId();
     }
