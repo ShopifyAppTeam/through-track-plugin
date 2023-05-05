@@ -30,6 +30,6 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     public String getEmail() {
-        return (String) oauth2User.<String>getAttributes().get("email");
+        return (String) oauth2User.getAttributes().get("email");
     }
 }

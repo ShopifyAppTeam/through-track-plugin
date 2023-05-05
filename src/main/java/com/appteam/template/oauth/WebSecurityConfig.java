@@ -65,22 +65,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint()
                 .userService(oauthUserService)
                 .and()
-                .successHandler(new AuthenticationSuccessHandler() {
+                .successHandler((request, response, authentication) -> {
+                    System.out.println("AuthenticationSuccessHandler invoked");
+                    System.out.println("Authentication name: " + authentication.getName());
+                    CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                        Authentication authentication) throws IOException, ServletException {
-                        System.out.println("AuthenticationSuccessHandler invoked");
-                        System.out.println("Authentication name: " + authentication.getName());
-                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+                    userService.processOAuthPostLogin(oauthUser.getEmail());
 
-                        userService.processOAuthPostLogin(oauthUser.getEmail());
-
-                        // response.sendRedirect("/list");
-                        response.sendRedirect("/");
-                    }
+                    response.sendRedirect("/");
                 })
-                //.defaultSuccessUrl("/list")
+                .defaultSuccessUrl("/")
+                //.defaultSuccessUrl("https://java-shop1.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=write_products,read_shipping&redirect_uri=https://example.com/api/auth&state=1&grant_options[]=per-user")
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
                 .and()
