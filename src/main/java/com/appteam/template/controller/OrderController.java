@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
+
     @Resource(name = "orderService")
     private DefaultOrderService orderService;
 
@@ -51,5 +52,4 @@ public class OrderController {
                                                         final @RequestParam String status) {
         return orderService.getUserOrdersByStatus(merchant, status);
     }
-
 }

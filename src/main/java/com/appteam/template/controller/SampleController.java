@@ -26,6 +26,7 @@ public class SampleController {
     /**
      * Sample call to Shopify API
      */
+
     @GetMapping("/my-store-info")
     public String myStoreInfo() {
         try {
