@@ -1,5 +1,10 @@
 package com.appteam.template.service;
 
+import com.appteam.template.dto.OrderData;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -10,6 +15,23 @@ import java.net.http.HttpResponse;
 
 @Service
 public class DHLService {
+    @Autowired
+    private OrderService orderService;
+
+    private void sendDataFromResponse(HttpResponse<String> response) {
+        JSONArray orders = new JSONArray(response);
+        for (int i = 0; i < orders.length(); i++) {
+            JSONObject order = orders.getJSONObject(i);
+            Long id = order.getLong("id");
+            String service = order.getString("service");
+            String merchant = "?";
+            String status = order.getJSONArray("status").toString();
+            OrderData data = new OrderData(id, service, merchant, status);
+            // push data to database
+            orderService.saveOrder(data);
+        }
+    }
+
     public String getShipmentInfo(String shipmentId) {
         try {
             if (shipmentId == null) {
@@ -21,9 +43,8 @@ public class DHLService {
                     .method("GET", java.net.http.HttpRequest.BodyPublishers.noBody())
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            String shipmentInfo = response.body();
-
-            return shipmentInfo;
+            sendDataFromResponse(response);
+            return response.body();
         } catch (Exception exc) {
             return exc.getMessage();
         }
