@@ -14,22 +14,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository repo;
-    /*
-        public void processOAuthPostLogin(String username) {
-            User existUser = repo.getUserByUsername(username);
 
-            if (existUser == null) {
-                User newUser = new User();
-                newUser.setUserName(username);
-                newUser.setProvider(Provider.GOOGLE);
-                //newUser.setEnabled(true);
-
-                repo.save(newUser);
-            }
-        }
-    */
-    public UserService(UserRepository userRepositoryMock) {
-        repo = userRepositoryMock;
+    public UserService(UserRepository userRepository) {
+        repo = userRepository;
     }
 
     public UserData saveUser(UserData userData) {
@@ -60,7 +47,7 @@ public class UserService {
         User user = new User();
         user.setId(data.getId());
         user.setIdShopify(data.getIdShopify());
-        user.setProvider(data.getProvider());
+        user.setProvider(data.getAuthorizationMethod());
         user.setEmail(data.getEmail());
         user.setPassword(data.getPassword());
         user.setEnabled(data.isEnabled());
@@ -76,7 +63,7 @@ public class UserService {
         data.setEmail(user.getEmail());
         data.setPassword(user.getPassword());
         data.setEnabled(user.isEnabled());
-        data.setProvider(user.getProvider());
+        data.setAuthorizationMethod(user.getProvider());
         data.setOrdersSendTime(user.getOrdersSendTime());
         data.setUpdateTime(user.getUpdateTime());
         return data;

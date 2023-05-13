@@ -33,7 +33,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name="provider")
-    private Provider provider;
+    private AuthorizationMethod authorizationMethod;
 
     @Column(name="update_time")
     private int updateTime;
@@ -88,12 +88,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Provider getProvider() {
-        return provider;
+    public AuthorizationMethod getProvider() {
+        return authorizationMethod;
     }
 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
+    public void setProvider(AuthorizationMethod provider) {
+        this.authorizationMethod = provider;
     }
 
     public int getUpdateTime() {
@@ -115,8 +115,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
         User user = (User) o;
         return Objects.equals(id, user.id);
     }
