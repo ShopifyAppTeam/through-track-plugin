@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     email text,
     password text,
     enabled boolean,
-    provider character varying,
+    auth_method character varying,
     update_time int,
     orders_send_time int
 );

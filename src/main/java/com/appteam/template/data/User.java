@@ -32,7 +32,7 @@ public class User {
     private boolean enabled;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="provider")
+    @Column(name="auth_method")
     private AuthorizationMethod authorizationMethod;
 
     @Column(name="update_time")
