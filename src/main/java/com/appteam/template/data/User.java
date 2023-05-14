@@ -45,7 +45,7 @@ public class User {
     }
 
     public User(UserData user) {
-        id = user.getId(); // something strange, shouldn't be all fields?
+
     }
 
     public Long getId() {
