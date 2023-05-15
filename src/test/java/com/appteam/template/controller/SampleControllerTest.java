@@ -42,7 +42,7 @@ public class SampleControllerTest {
 
     @Test
     public void DHLIntegrationTest() throws Exception {
-        when(DHLservice.getShipmentInfo(Mockito.anyString())).thenReturn("ShipmentInfo");
+        when(DHLservice.updateShipmentInfo(Mockito.anyString())).thenReturn("ShipmentInfo");
         this.mockMvc.perform(get("/my-shipment-status").param("id", "ShipmentId"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("ShipmentInfo")));

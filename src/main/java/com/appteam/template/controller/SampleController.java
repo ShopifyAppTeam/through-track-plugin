@@ -1,6 +1,7 @@
 package com.appteam.template.controller;
 
 import com.appteam.template.service.DHLService;
+import com.appteam.template.service.ParamsService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +13,11 @@ import java.util.Optional;
 @RestController
 public class SampleController {
     private final DHLService DHLservice;
+    private final ParamsService paramsService;
 
-    public SampleController(DHLService DHLservice) {
+    public SampleController(DHLService DHLservice, ParamsService paramsService) {
         this.DHLservice = DHLservice;
+        this.paramsService = paramsService;
     }
 
     @GetMapping("/")
@@ -43,10 +46,30 @@ public class SampleController {
     /**
      * Call to DHL API, that updates shipment status in database and returns it
      */
-    @GetMapping("/my-shipment-status")
-    public String myShipmentStatus(@RequestParam Optional<String> id) {
-        return DHLservice.getShipmentInfo(id.orElse(null));
+    @GetMapping("/update")
+    public String updateShipmentStatus(@RequestParam Optional<String> id) {
+        return DHLservice.updateShipmentInfo(id.orElse(null));
     }
 
+    @GetMapping("/set-shipment-time")
+    public void setShipmentTime(@RequestParam Optional<Integer> time) {
+        time.ifPresent(integer -> {
+            try {
+                paramsService.setParam("ordersSendTime", integer);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
+    @GetMapping("/set-update-time")
+    public void setUpdateTime(@RequestParam Optional<Integer> time) {
+        time.ifPresent(integer -> {
+            try {
+                paramsService.setParam("updateTime", integer);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }

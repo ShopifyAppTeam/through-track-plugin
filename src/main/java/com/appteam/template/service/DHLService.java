@@ -12,27 +12,32 @@ import org.springframework.stereotype.Service;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.NoSuchElementException;
 
 @Service
 public class DHLService {
     @Autowired
     private OrderService orderService;
 
-    private void sendDataFromResponse(HttpResponse<String> response) {
-        JSONArray orders = new JSONArray(response);
+    private void sendDataFromResponse(HttpResponse<String> response) throws NoSuchElementException {
+        JSONObject responseObject = new JSONObject(response.body());
+        if (!responseObject.has("shipments")) {
+            throw new NoSuchElementException("No orders found");
+        }
+        JSONArray orders = (JSONArray) responseObject.get("shipments");
         for (int i = 0; i < orders.length(); i++) {
             JSONObject order = orders.getJSONObject(i);
             Long id = order.getLong("id");
             String service = order.getString("service");
             String merchant = "?";
-            String status = order.getJSONArray("status").toString();
+            String status = order.getJSONObject("status").toString();
             OrderData data = new OrderData(id, service, merchant, status);
             // push data to database
             orderService.saveOrder(data);
         }
     }
 
-    public String getShipmentInfo(String shipmentId) {
+    public String updateShipmentInfo(String shipmentId) {
         try {
             if (shipmentId == null) {
                 return "No shipment tracking number";
@@ -50,10 +55,10 @@ public class DHLService {
         }
     }
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 100000)
     @Async
     public void updateAllShipmentsStatus() throws InterruptedException {
         System.err.println("updating shipment status...");
-        Thread.sleep(10000);
+        Thread.sleep(100000);
     }
 }
