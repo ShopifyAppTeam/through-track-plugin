@@ -25,21 +25,21 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserData>> allUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<UserData> addUser(final @RequestBody UserData data) {
-        return new ResponseEntity<>(userService.saveUser(data), new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.saveUser(data), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserData> getUser(final @PathVariable Long id) {
-        return new ResponseEntity<>(userService.getUserById(id), new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUser(final @PathVariable Long id) {
-        return new ResponseEntity<>(userService.deleteUser(id), new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
     }
 }

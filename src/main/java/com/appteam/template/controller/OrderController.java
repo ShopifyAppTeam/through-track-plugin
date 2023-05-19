@@ -27,7 +27,7 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<OrderData>> allOrders() {
-        return new ResponseEntity<>(orderService.getAllOrders(), new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
 
     @PostMapping
@@ -37,11 +37,11 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderData> getOrder(final @PathVariable Long id) {
-        return new ResponseEntity<>(orderService.getOrderById(id), new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteOrder(final @PathVariable Long id) {
-        return new ResponseEntity<>(orderService.deleteOrder(id), new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.deleteOrder(id), HttpStatus.OK);
     }
 }

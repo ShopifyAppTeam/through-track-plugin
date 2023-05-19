@@ -2,6 +2,7 @@ package com.appteam.template.service;
 
 import com.appteam.template.data.User;
 import com.appteam.template.dto.UserData;
+import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class UserService {
     public UserData getUserById(Long id) {
         return populateUserData(repo.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("User not found"))
+                        () -> new ResourceNotFoundException("User not found"))
         );
     }
 
