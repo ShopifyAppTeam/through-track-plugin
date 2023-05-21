@@ -23,7 +23,6 @@ import java.util.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserServiceTest {
-
     @Mock
     UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
     UserService userService = new UserService(userRepositoryMock);
@@ -34,7 +33,7 @@ public class UserServiceTest {
         Mockito.when(userRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
         for (int i = 0; i < 100; i++) {
             Long id = gen.nextLong();
-            UserData userData = new UserData(id, id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0);
+            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0);
             User user = new User(userData);
             userList.add(user);
             Mockito.when(userRepositoryMock.save(user)).thenReturn(user);

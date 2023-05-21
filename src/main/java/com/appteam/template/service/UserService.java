@@ -45,7 +45,6 @@ public class UserService {
 
     private User populateUserEntity(final UserData data) {
         User user = new User();
-        user.setId(data.getId());
         user.setIdShopify(data.getIdShopify());
         user.setProvider(data.getAuthorizationMethod());
         user.setEmail(data.getEmail());

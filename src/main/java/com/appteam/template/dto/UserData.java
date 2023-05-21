@@ -16,8 +16,8 @@ public class UserData {
     private int ordersSendTime;
     public UserData() {
     }
-    public UserData(Long id, Long idShopify, String email, String password, AuthorizationMethod authorizationMethod, int updateTime, int ordersSendTime) {
-        this.id = id;
+    public UserData(Long idShopify, String email, String password, AuthorizationMethod authorizationMethod,
+                    int updateTime, int ordersSendTime) {
         this.idShopify = idShopify;
         this.email = email;
         this.password = password;
