@@ -28,8 +28,8 @@ public class User {
     private boolean enabled;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="provider")
-    private Provider provider;
+    @Column(name="auth_method")
+    private AuthorizationMethod authorizationMethod;
 
     @Column(name="update_time")
     private int updateTime;
@@ -49,15 +49,11 @@ public class User {
     }
 
     public User(UserData user) {
-        id = user.getId(); // something strange, shouldn't be all fields?
+
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getIdShopify() {
@@ -92,12 +88,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Provider getProvider() {
-        return provider;
+    public AuthorizationMethod getProvider() {
+        return authorizationMethod;
     }
 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
+    public void setProvider(AuthorizationMethod provider) {
+        this.authorizationMethod = provider;
     }
 
     public int getUpdateTime() {
@@ -126,8 +122,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
         User user = (User) o;
         return Objects.equals(id, user.id);
     }

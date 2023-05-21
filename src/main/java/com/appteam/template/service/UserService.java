@@ -1,10 +1,11 @@
 package com.appteam.template.service;
 
-import com.appteam.template.data.Provider;
+import com.appteam.template.data.AuthorizationMethod;
 import com.appteam.template.data.Role;
 import com.appteam.template.data.User;
 import com.appteam.template.dto.UserData;
 import com.appteam.template.repository.RoleRepository;
+import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class UserService implements UserDetailsService {
         if (existUser == null) {
             User newUser = new User();
             newUser.setEmail(email);
-            newUser.setProvider(Provider.GOOGLE);
+            newUser.setProvider(AuthorizationMethod.GOOGLE);
             newUser.setEnabled(true);
             userRepository.save(newUser);
             System.out.println("added new user");
@@ -42,8 +43,8 @@ public class UserService implements UserDetailsService {
     }
     public UserService(){}
 
-    public UserService(UserRepository userRepositoryMock) {
-        userRepository = userRepositoryMock;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public UserData saveUser(UserData userData) {
@@ -67,15 +68,14 @@ public class UserService implements UserDetailsService {
     public UserData getUserById(Long id) {
         return populateUserData(userRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("User not found"))
+                        () -> new ResourceNotFoundException("User not found"))
         );
     }
 
     private User populateUserEntity(final UserData data) {
         User user = new User();
-        user.setId(data.getId());
         user.setIdShopify(data.getIdShopify());
-        user.setProvider(data.getProvider());
+        user.setProvider(data.getAuthorizationMethod());
         user.setEmail(data.getEmail());
         user.setPassword(data.getPassword());
         user.setEnabled(data.isEnabled());
@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService {
         data.setEmail(user.getEmail());
         data.setPassword(user.getPassword());
         data.setEnabled(user.isEnabled());
-        data.setProvider(user.getProvider());
+        data.setAuthorizationMethod(user.getProvider());
         data.setOrdersSendTime(user.getOrdersSendTime());
         data.setUpdateTime(user.getUpdateTime());
         data.setRoles(user.getRoles());

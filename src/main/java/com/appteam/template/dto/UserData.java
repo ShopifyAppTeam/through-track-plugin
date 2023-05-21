@@ -1,9 +1,8 @@
 package com.appteam.template.dto;
 
+import com.appteam.template.data.AuthorizationMethod;
 import com.appteam.template.data.User;
-import com.appteam.template.data.Provider;
 import com.appteam.template.data.Role;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,7 +14,7 @@ public class UserData {
     private String email;
     private String password;
     private boolean enabled = false;
-    private Provider provider;
+    private AuthorizationMethod authorizationMethod;
     private int updateTime;
     private int ordersSendTime;
 
@@ -23,13 +22,11 @@ public class UserData {
     public UserData() {
     }
 
-    public UserData(Long id, Long idShopify, String email, String password, Provider provider, int updateTime, int ordersSendTime, Set<Role> roles) {
-
-        this.id = id;
+    public UserData(Long idShopify, String email, String password, AuthorizationMethod authorizationMethod, int updateTime, int ordersSendTime, Set<Role> roles) {
         this.idShopify = idShopify;
         this.email = email;
         this.password = password;
-        this.provider = provider;
+        this.authorizationMethod = authorizationMethod;
         this.updateTime = updateTime;
         this.ordersSendTime = ordersSendTime;
         this.roles = roles;
@@ -41,7 +38,7 @@ public class UserData {
         email = user.getEmail();
         password = user.getPassword();
         enabled = user.isEnabled();
-        provider = user.getProvider();
+        authorizationMethod = user.getProvider();
         updateTime = user.getUpdateTime();
         ordersSendTime = user.getOrdersSendTime();
         roles = user.getRoles();
@@ -86,12 +83,12 @@ public class UserData {
         this.enabled = enabled;
     }
 
-    public Provider getProvider() {
-        return provider;
+    public AuthorizationMethod getAuthorizationMethod() {
+        return authorizationMethod;
     }
 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
+    public void setAuthorizationMethod(AuthorizationMethod authorizationMethod) {
+        this.authorizationMethod = authorizationMethod;
     }
 
     public int getUpdateTime() {
@@ -120,8 +117,12 @@ public class UserData {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UserData)) {
+            return false;
+        }
         UserData userData = (UserData) o;
         return Objects.equals(id, userData.id);
     }
