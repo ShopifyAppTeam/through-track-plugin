@@ -51,28 +51,29 @@ dependencies {
             strictly('2.22.0')
         }
     }
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	compile 'org.flywaydb:flyway-core'
+	runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    compile 'org.flywaydb:flyway-core'
-    runtimeOnly 'org.postgresql:postgresql'
 }
 
 flyway {
+
     url = 'jdbc:postgresql://localhost:5432/orders'
     user = 'postgres'
     password = 'pswd'
     schemas = ['through-track-plugin_db']
     locations = ['filesystem:.src/main/resources/db/migration']
+
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 targetCompatibility = JavaVersion.VERSION_11
