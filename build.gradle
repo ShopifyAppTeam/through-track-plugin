@@ -66,7 +66,7 @@ dependencies {
 }
 
 flyway {
-    url = 'jdbc:postgresql://localhost:5432/orders?password=pswd'
+    url = 'jdbc:postgresql://localhost:5432/orders'
     user = 'postgres'
     password = 'pswd'
     schemas = ['through-track-plugin_db']
