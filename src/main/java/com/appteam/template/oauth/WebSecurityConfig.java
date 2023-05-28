@@ -25,7 +25,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
+/*
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -105,9 +105,9 @@ public class WebSecurityConfig {
     }
 }
 
+*/
 
 
-/*
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -185,7 +185,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/403")
         ;
     }
-*/
+}
 /*
 
 
