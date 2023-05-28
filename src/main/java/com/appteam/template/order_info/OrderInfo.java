@@ -46,18 +46,15 @@ public class OrderInfo {
         }
     }
 
-    public static OrderData getOrderDataFromShopifyOrder(ShopifyOrder shopifyOrder) {
+    public static OrderData getOrderDataFromShopifyOrder(ShopifyOrder shopifyOrder, ShopifySdk shopifySdk) {
         OrderData orderData = new OrderData();
         orderData.setId(Long.valueOf(shopifyOrder.getId()));
-
-        if (shopifyOrder.getShippingLines().size() > 0) {
-            orderData.setShipmentId(Long.valueOf(shopifyOrder.getShippingLines().get(0).getId()));
-        }
+        orderData.setMerchant(shopifySdk.getShop().getShop().getName()); // Shop name
         return orderData;
     }
 
     public OrderData getOrderData() {
         ShopifyOrder shopifyOrder = shopifySdk.getOrder(orderId);
-        return getOrderDataFromShopifyOrder(shopifyOrder);
+        return getOrderDataFromShopifyOrder(shopifyOrder, shopifySdk);
     }
 }

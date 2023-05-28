@@ -3,6 +3,7 @@ package com.appteam.template.order_info;
 import com.appteam.template.data.Order;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.order_info.OrderInfo;
+import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyOrder;
 import com.shopify.model.ShopifyShippingLine;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ class OrderInfoTest {
     @Test
     void getOrderFromShopifyOrderTest() {
         ArrayList<ShopifyOrder> shopifyOrders = new ArrayList<ShopifyOrder>();
+        ShopifySdk shopifySdk = ShopifySdk.newBuilder().withSubdomain("").withAccessToken("").build();
         for (int i = 0; i < 100; ++i) {
             ShopifyOrder e = new ShopifyOrder();
             e.setId(Long.toString((long) (Math.random() * ((100000000 - 10000) + 1)) + 10000));
@@ -52,8 +54,7 @@ class OrderInfoTest {
             shopifyOrders.add(e);
         }
         for (ShopifyOrder shopifyOrder : shopifyOrders) {
-            assertEquals(shopifyOrder.getId(), OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder).getId().toString());
-            assertEquals(shopifyOrder.getShippingLines().get(0).getId(), OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder).getShipmentId().toString());
+            assertEquals(shopifyOrder.getId(), OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder, shopifySdk).getId().toString());
         }
     }
 }

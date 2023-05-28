@@ -25,7 +25,7 @@ public class OrdersList {
         ArrayList<OrderData> orders = new ArrayList<>();
         ShopifyPage<ShopifyOrder> shopifyOrders = shopifySdk.getOrders();
         for (ShopifyOrder shopifyOrder : shopifyOrders) {
-            orders.add(OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder));
+            orders.add(OrderInfo.getOrderDataFromShopifyOrder(shopifyOrder, shopifySdk));
         }
         return orders;
     }
