@@ -4,9 +4,8 @@ CREATE TABLE IF NOT EXISTS "order" (
 );
 
 CREATE TABLE IF NOT EXISTS "user" (
-    id bigint PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_shopify bigint,
-    username text,
     email text,
     password text,
     enabled boolean,
