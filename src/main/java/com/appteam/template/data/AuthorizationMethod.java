@@ -1,5 +1,5 @@
 package com.appteam.template.data;
 
-public enum Provider {
+public enum AuthorizationMethod {
     SHOPIFY, GOOGLE
 }
