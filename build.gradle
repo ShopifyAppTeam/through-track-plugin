@@ -5,11 +5,11 @@ buildscript {
 }
 
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '2.1.0.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id 'org.flywaydb.flyway' version '5.0.7'
-
+	id 'idea'
+	id 'java'
+	id 'org.springframework.boot' version '2.1.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.flywaydb.flyway' version '5.0.7'
 }
 
 group = 'com.appteam'
@@ -63,10 +63,9 @@ dependencies {
 }
 
 flyway {
-
     url = 'jdbc:postgresql://localhost:5432/orders'
     user = 'postgres'
-    password = 'pswd'
+    password = '1234'
     schemas = ['through-track-plugin_db']
     locations = ['filesystem:.src/main/resources/db/migration']
 

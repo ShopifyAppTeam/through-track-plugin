@@ -4,3 +4,14 @@ CREATE TABLE IF NOT EXISTS "order" (
     service text,
     merchant text
 );
+
+CREATE TABLE IF NOT EXISTS "user" (
+    id SERIAL PRIMARY KEY,
+    id_shopify bigint,
+    email text,
+    password text,
+    enabled boolean,
+    auth_method character varying,
+    update_time int,
+    orders_send_time int
+);
