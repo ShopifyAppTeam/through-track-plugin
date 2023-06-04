@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class OrderData {
     private Long id;
+
     private String service;
     private String merchant;
 
