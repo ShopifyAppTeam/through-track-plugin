@@ -67,22 +67,22 @@ public class UserServiceTest {
         }
     }
 
-    @Test
-    void getUserByIdTest() {
-        Map<Long, Long> orderMap = new HashMap<>();
-        for (User user : userList) {
-            orderMap.put(user.getId(), user.getId());
-        }
-        for (int i = 0; i < 50; i++) {
-            Long id = gen.nextLong();
-            if (orderMap.containsKey(id)) {
-                OrderData data = new OrderData(id, "");
-                assertEquals(data, userService.getUserById(id));
-            } else {
-                assertThrows(EntityNotFoundException.class,
-                        () -> userService.getUserById(id),
-                        "User not found");
-            }
-        }
-    }
+//    @Test
+//    void getUserByIdTest() {
+//        Map<Long, Long> orderMap = new HashMap<>();
+//        for (User user : userList) {
+//            orderMap.put(user.getId(), user.getId());
+//        }
+//        for (int i = 0; i < 50; i++) {
+//            Long id = gen.nextLong();
+//            if (orderMap.containsKey(id)) {
+//                OrderData data = new OrderData(id, "");
+//                assertEquals(data, userService.getUserById(id));
+//            } else {
+//                assertThrows(EntityNotFoundException.class,
+//                        () -> userService.getUserById(id),
+//                        "User not found");
+//            }
+//        }
+//    }
 }

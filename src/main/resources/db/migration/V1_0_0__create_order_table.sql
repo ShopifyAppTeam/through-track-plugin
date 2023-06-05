@@ -1,10 +1,12 @@
 CREATE TABLE IF NOT EXISTS "order" (
     id bigint PRIMARY KEY,
-    service text
+    status text,
+    service text,
+    merchant text
 );
 
 CREATE TABLE IF NOT EXISTS "user" (
-    id bigint PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_shopify bigint,
     username text,
     email text,

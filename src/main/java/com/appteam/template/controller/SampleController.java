@@ -49,33 +49,18 @@ public class SampleController {
     /**
      * Call to DHL API, that updates shipment status in database and returns it
      */
-    @GetMapping("/my-shipment-status")
-    public ResponseEntity<String> myShipmentStatus(@RequestParam Optional<String> id) {
-        return new ResponseEntity<>(DHLservice.getShipmentInfo(id.orElse(null)), HttpStatus.OK);
     @GetMapping("/update")
-    public String updateShipmentStatus(@RequestParam Optional<String> id) {
-        return DHLservice.updateShipmentInfo(id.orElse(null));
+    public ResponseEntity<String> updateShipmentStatus(@RequestParam Optional<String> id) {
+        return new ResponseEntity<>(DHLservice.updateShipmentInfo(id.orElse(null)), HttpStatus.OK);
     }
 
     @GetMapping("/set-shipment-time")
     public void setShipmentTime(@RequestParam Optional<Integer> time) {
-        time.ifPresent(integer -> {
-            try {
-                paramsService.setParam("ordersSendTime", integer);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        time.ifPresent(paramsService::setShipmentTimeParam);
     }
 
     @GetMapping("/set-update-time")
     public void setUpdateTime(@RequestParam Optional<Integer> time) {
-        time.ifPresent(integer -> {
-            try {
-                paramsService.setParam("updateTime", integer);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        time.ifPresent(paramsService::setUpdateTimeParam);
     }
 }
