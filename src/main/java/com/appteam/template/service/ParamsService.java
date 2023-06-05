@@ -13,15 +13,15 @@ public class ParamsService {
     private UserService userService;
 
     public void setShipmentTimeParam(int time) {
-        Long userId = 777L; // mysterious number
-        UserData user = userService.getUserById(userId);
+        String email = "aboba@gmail.com";
+        UserData user = userService.getUserByEmail(email);
         user.setOrdersSendTime(time);
         userService.saveUser(user);
 
     }
     public void setUpdateTimeParam(int time) {
-        Long userId = 777L; // mysterious number
-        UserData user = userService.getUserById(userId);
+        String email = "aboba@gmail.com";
+        UserData user = userService.getUserByEmail(email);
         user.setUpdateTime(time);
         userService.saveUser(user);
     }
