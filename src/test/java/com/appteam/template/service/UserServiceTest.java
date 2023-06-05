@@ -30,14 +30,14 @@ public class UserServiceTest {
     List<User> userList = new ArrayList<>();
 
     {
-        Mockito.when(userRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
+        Mockito.when(userRepositoryMock.getUserByEmail(Mockito.any(String.class))).thenReturn(null);
         for (int i = 0; i < 100; i++) {
             Long id = gen.nextLong();
             UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0);
             User user = new User(userData);
             userList.add(user);
             Mockito.when(userRepositoryMock.save(user)).thenReturn(user);
-            Mockito.when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
+            Mockito.when(userRepositoryMock.getUserByEmail(user.getEmail())).thenReturn(user);
         }
         Mockito.when(userRepositoryMock.findAll()).thenReturn(userList);
     }
@@ -54,7 +54,7 @@ public class UserServiceTest {
     void deleteUserTest() {
         for (User user : userList) {
             UserData data = new UserData(user);
-            assertEquals(true, userService.deleteUser(data.getId()));
+            assertEquals(true, userService.deleteUser(data.getEmail()));
         }
     }
 
@@ -67,22 +67,23 @@ public class UserServiceTest {
         }
     }
 
-//    @Test
-//    void getUserByIdTest() {
-//        Map<Long, Long> orderMap = new HashMap<>();
-//        for (User user : userList) {
-//            orderMap.put(user.getId(), user.getId());
-//        }
-//        for (int i = 0; i < 50; i++) {
-//            Long id = gen.nextLong();
-//            if (orderMap.containsKey(id)) {
-//                OrderData data = new OrderData(id, "");
-//                assertEquals(data, userService.getUserById(id));
-//            } else {
-//                assertThrows(EntityNotFoundException.class,
-//                        () -> userService.getUserById(id),
-//                        "User not found");
-//            }
-//        }
-//    }
+    @Test
+    void getUserByEmailTest() {
+        Map<String, String> userMap = new HashMap<>();
+        for (User user : userList) {
+            userMap.put(user.getEmail(), user.getEmail());
+        }
+        for (int i = 0; i < 50; i++) {
+            String email = Long.toString(gen.nextLong());
+            if (userMap.containsKey(email)) {
+                UserData data = new UserData();
+                data.setEmail(email);
+                assertEquals(data, userService.getUserByEmail(email));
+            } else {
+                assertThrows(EntityNotFoundException.class,
+                        () -> userService.getUserByEmail(email),
+                        "User not found");
+            }
+        }
+    }
 }

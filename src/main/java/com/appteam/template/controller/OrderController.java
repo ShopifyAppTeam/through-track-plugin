@@ -4,9 +4,6 @@ import com.appteam.template.data.Order;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.service.DefaultOrderService;
 import com.appteam.template.service.EmailService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,8 +43,8 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteOrder(final @PathVariable Long id) {
-        return new ResponseEntity<>(orderService.deleteOrder(id), HttpStatus.OK);
+    public Boolean deleteOrder(final @PathVariable Long id) {
+        return orderService.deleteOrder(id);
     }
 
     @GetMapping("/status")
