@@ -53,9 +53,13 @@ public class UserService implements UserDetailsService {
         return populateUserData(userRepository.save(user));
     }
 
-    public Boolean deleteUser(Long orderId) {
-        userRepository.deleteById(orderId);
-        return true;
+    public Boolean deleteUser(String email) {
+        User user = userRepository.getUserByEmail(email);
+        if (user != null) {
+            userRepository.delete(user);
+            return true;
+        }
+        return false;
     }
 
     public List<UserData> getAllUsers() {
@@ -65,11 +69,13 @@ public class UserService implements UserDetailsService {
         return data;
     }
 
-    public UserData getUserById(Long id) {
-        return populateUserData(userRepository.findById(id)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("User not found"))
-        );
+    public UserData getUserByEmail(String email) {
+        User user = userRepository.getUserByEmail(email);
+        if (user != null) {
+            return populateUserData(user);
+        } else {
+            throw new EntityNotFoundException("User not found");
+        }
     }
 
     private User populateUserEntity(final UserData data) {
@@ -87,7 +93,6 @@ public class UserService implements UserDetailsService {
 
     private UserData populateUserData(final User user) {
         UserData data = new UserData();
-        data.setId(user.getId());
         data.setIdShopify(user.getIdShopify());
         data.setEmail(user.getEmail());
         data.setPassword(user.getPassword());

@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class UserData {
-    private Long id;
     private Long idShopify;
     private String email;
     private String password;
@@ -33,7 +32,6 @@ public class UserData {
     }
 
     public UserData(User user) {
-        id = user.getId();
         idShopify = user.getIdShopify();
         email = user.getEmail();
         password = user.getPassword();
@@ -42,13 +40,6 @@ public class UserData {
         updateTime = user.getUpdateTime();
         ordersSendTime = user.getOrdersSendTime();
         roles = user.getRoles();
-    }
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getIdShopify() {
@@ -124,11 +115,11 @@ public class UserData {
             return false;
         }
         UserData userData = (UserData) o;
-        return Objects.equals(id, userData.id);
+        return Objects.equals(email, userData.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(email);
     }
 }

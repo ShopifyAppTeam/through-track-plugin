@@ -10,14 +10,11 @@ import java.util.Set;
 @Entity
 @Table(name="user", schema = "through-track-plugin_db")
 public class User {
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name="id_shopify")
     private Long idShopify;
 
+    @Id
     @Column(name="email")
     private String email;
 
@@ -50,10 +47,6 @@ public class User {
 
     public User(UserData user) {
 
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public Long getIdShopify() {
@@ -129,10 +122,10 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(id, user.id);
+        return Objects.equals(email, user.getEmail());
     }
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(email);
     }
 }
