@@ -56,11 +56,11 @@ public class SampleController {
 
     @GetMapping("/set-shipment-time")
     public void setShipmentTime(@RequestParam Optional<Integer> time) {
-        time.ifPresent(paramsService::setShipmentTimeParam);
+        time.ifPresent(integer -> paramsService.setShipmentTimeParam(integer, "test@gmail.com"));
     }
 
     @GetMapping("/set-update-time")
     public void setUpdateTime(@RequestParam Optional<Integer> time) {
-        time.ifPresent(paramsService::setUpdateTimeParam);
+        time.ifPresent(integer -> paramsService.setShipmentTimeParam(integer, "test@gmail.com"));
     }
 }

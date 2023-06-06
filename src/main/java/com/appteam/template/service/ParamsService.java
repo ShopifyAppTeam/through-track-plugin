@@ -12,15 +12,13 @@ public class ParamsService {
     @Autowired
     private UserService userService;
 
-    public void setShipmentTimeParam(int time) {
-        String email = "aboba@gmail.com";
+    public void setShipmentTimeParam(int time, String email) {
         UserData user = userService.getUserByEmail(email);
         user.setOrdersSendTime(time);
         userService.saveUser(user);
 
     }
-    public void setUpdateTimeParam(int time) {
-        String email = "aboba@gmail.com";
+    public void setUpdateTimeParam(int time, String email) {
         UserData user = userService.getUserByEmail(email);
         user.setUpdateTime(time);
         userService.saveUser(user);

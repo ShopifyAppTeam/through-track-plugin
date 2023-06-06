@@ -25,7 +25,7 @@ public class User {
     private String password;
 
     @Column(name="enabled")
-    private boolean enabled;
+    private Boolean enabled = false;
 
     @Enumerated(EnumType.STRING)
     @Column(name="auth_method")
@@ -68,7 +68,7 @@ public class User {
         this.password = password;
     }
 
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
