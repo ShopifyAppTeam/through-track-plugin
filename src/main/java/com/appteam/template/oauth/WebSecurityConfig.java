@@ -68,17 +68,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/oauth/**").permitAll()
+                .antMatchers("/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                .loginPage("/login")
+                //.loginPage("/login")
                 .usernameParameter("email")
-                .passwordParameter("pass")
+                //.passwordParameter("pass")
                 .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .loginPage("/login")
+                //.loginPage("/login")
                 .userInfoEndpoint()
                 .userService(oauthUserService)
                 .and()
@@ -93,7 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         userService.processOAuthPostLogin(oauthUser.getEmail());
                         response.sendRedirect("/");
-                        //response.sendRedirect("https://java-shop1.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=write_products,read_shipping&redirect_uri=https://example.com/api/auth&state=1&grant_options[]=per-user")
+                        //response.sendRedirect("https://java-shop1.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=write_products,read_shipping&redirect_uri=http://localhost:8080/&state=12345");
                     }
                 })
                 .and()

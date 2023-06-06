@@ -17,7 +17,7 @@ public class UserData {
     private int updateTime;
     private int ordersSendTime;
 
-    private Set<Role> roles = new HashSet<>();
+   // private Set<Role> roles = new HashSet<>();
     public UserData() {
     }
 
@@ -28,7 +28,7 @@ public class UserData {
         this.authorizationMethod = authorizationMethod;
         this.updateTime = updateTime;
         this.ordersSendTime = ordersSendTime;
-        this.roles = roles;
+       // this.roles = roles;
     }
 
     public UserData(User user) {
@@ -39,7 +39,7 @@ public class UserData {
         authorizationMethod = user.getProvider();
         updateTime = user.getUpdateTime();
         ordersSendTime = user.getOrdersSendTime();
-        roles = user.getRoles();
+        //roles = user.getRoles();
     }
 
     public Long getIdShopify() {
@@ -98,13 +98,13 @@ public class UserData {
         this.ordersSendTime = ordersSendTime;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
 
     @Override
     public boolean equals(Object o) {

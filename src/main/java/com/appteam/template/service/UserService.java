@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service("userService")
 public class UserService implements UserDetailsService {
@@ -37,6 +35,10 @@ public class UserService implements UserDetailsService {
             newUser.setEmail(email);
             newUser.setProvider(AuthorizationMethod.GOOGLE);
             newUser.setEnabled(true);
+//            Set<Role> roles = new HashSet<>();
+//            roles.add(new Role("user"));
+//            newUser.setRoles(roles);
+
             userRepository.save(newUser);
             System.out.println("added new user");
         }
@@ -87,7 +89,7 @@ public class UserService implements UserDetailsService {
         user.setEnabled(data.isEnabled());
         user.setOrdersSendTime(data.getOrdersSendTime());
         user.setUpdateTime(data.getUpdateTime());
-        user.setRoles(data.getRoles());
+        //user.setRoles(data.getRoles());
         return user;
     }
 
@@ -100,7 +102,7 @@ public class UserService implements UserDetailsService {
         data.setAuthorizationMethod(user.getProvider());
         data.setOrdersSendTime(user.getOrdersSendTime());
         data.setUpdateTime(user.getUpdateTime());
-        data.setRoles(user.getRoles());
+       // data.setRoles(user.getRoles());
         return data;
     }
 
