@@ -11,6 +11,8 @@ import java.lang.reflect.Field;
 public class ParamsService {
     @Autowired
     private UserService userService;
+    @Autowired
+    private DHLService dhlService;
 
     public void setShipmentTimeParam(int time, String email) {
         UserData user = userService.getUserByEmail(email);
@@ -22,5 +24,6 @@ public class ParamsService {
         UserData user = userService.getUserByEmail(email);
         user.setUpdateTime(time);
         userService.saveUser(user);
+        dhlService.setUserUpdateTimer(userService.getUserByEmail(email));
     }
 }

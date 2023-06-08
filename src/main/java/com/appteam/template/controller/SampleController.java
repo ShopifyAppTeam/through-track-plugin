@@ -15,11 +15,11 @@ import java.util.Optional;
 
 @RestController
 public class SampleController {
-    private final DHLService DHLservice;
+    private final DHLService dhlService;
     private final ParamsService paramsService;
 
     public SampleController(DHLService DHLservice, ParamsService paramsService) {
-        this.DHLservice = DHLservice;
+        this.dhlService = DHLservice;
         this.paramsService = paramsService;
     }
 
@@ -50,17 +50,23 @@ public class SampleController {
      * Call to DHL API, that updates shipment status in database and returns it
      */
     @GetMapping("/update")
-    public ResponseEntity<String> updateShipmentStatus(@RequestParam Optional<String> id) {
-        return new ResponseEntity<>(DHLservice.updateShipmentInfo(id.orElse(null)), HttpStatus.OK);
+    public ResponseEntity<String> updateShipmentStatus(@RequestParam Optional<String> id, @RequestParam Optional<String> user) {
+        return new ResponseEntity<>(dhlService.updateShipmentInfo(id.orElse(null), user.orElse("test@gmail.com")), HttpStatus.OK);
+    }
+
+    @GetMapping("/update-all")
+    public void updateShipmentStatus() {
+        dhlService.updateAllShipmentsStatus();
     }
 
     @GetMapping("/set-shipment-time")
-    public void setShipmentTime(@RequestParam Optional<Integer> time) {
-        time.ifPresent(integer -> paramsService.setShipmentTimeParam(integer, "test@gmail.com"));
+    public void setShipmentTime(@RequestParam Optional<Integer> time, @RequestParam Optional<String> user) {
+        time.ifPresent(integer -> paramsService.setShipmentTimeParam(integer, user.orElse("test@gmail.com")));
     }
 
     @GetMapping("/set-update-time")
-    public void setUpdateTime(@RequestParam Optional<Integer> time) {
-        time.ifPresent(integer -> paramsService.setShipmentTimeParam(integer, "test@gmail.com"));
+    public void setUpdateTime(@RequestParam Optional<Integer> time, @RequestParam Optional<String> user) {
+        user.ifPresent(System.err::println);
+        time.ifPresent(integer -> paramsService.setUpdateTimeParam(integer, user.orElse("test@gmail.com")));
     }
 }
