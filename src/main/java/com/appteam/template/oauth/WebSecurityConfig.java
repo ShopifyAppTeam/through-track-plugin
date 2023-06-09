@@ -1,13 +1,16 @@
 package com.appteam.template.oauth;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
 import com.appteam.template.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.context.annotation.Bean;
@@ -68,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/**", "/login", "/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -92,8 +95,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 
                         userService.processOAuthPostLogin(oauthUser.getEmail());
-                        response.sendRedirect("/");
-                        //response.sendRedirect("https://java-shop1.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=write_products,read_shipping&redirect_uri=http://localhost:8080/&state=12345");
+                        Cookie cookie = new Cookie("name","12345");
+                        cookie.setPath("http://localhost:8080/");
+                        URL urlToRedirect = new URL("http://localhost:8080/");
+                        cookie.setDomain(urlToRedirect.getHost());
+                        response.addCookie(cookie);
+                        response.setStatus(303);
+                        //response.sendRedirect("/");
+                        response.sendRedirect("https://java-shop1.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=read_shipping&redirect_uri=http://localhost:8080/&state=12345");
                     }
                 })
                 .and()

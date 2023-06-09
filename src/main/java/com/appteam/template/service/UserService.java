@@ -52,6 +52,7 @@ public class UserService implements UserDetailsService {
     public UserData saveUser(UserData userData) {
         User user = populateUserEntity(userData);
         //user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+
         return populateUserData(userRepository.save(user));
     }
 
