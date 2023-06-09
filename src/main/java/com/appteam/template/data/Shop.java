@@ -17,7 +17,7 @@ public class Shop {
     private String token;
 
     @OneToMany(fetch=FetchType.EAGER, mappedBy="shop")
-    private Collection<Order> orders;
+    private Collection<Order> orders = new ArrayList<>();
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn (name="shop_user")

@@ -34,7 +34,7 @@ public class User {
     @Column(name="orders_send_time")
     private int ordersSendTime;
     @OneToMany(fetch=FetchType.EAGER, mappedBy="user")
-    private Collection<Shop> shops;
+    private Collection<Shop> shops = new ArrayList<>();
 
     public User() {
     }
