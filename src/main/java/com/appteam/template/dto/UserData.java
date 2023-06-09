@@ -1,8 +1,12 @@
 package com.appteam.template.dto;
 
 import com.appteam.template.data.AuthorizationMethod;
+import com.appteam.template.data.Shop;
 import com.appteam.template.data.User;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 public class UserData {
@@ -13,16 +17,18 @@ public class UserData {
     private AuthorizationMethod authorizationMethod;
     private int updateTime;
     private int ordersSendTime;
+    private Collection<Shop> shops;
     public UserData() {
     }
     public UserData(Long idShopify, String email, String password, AuthorizationMethod authorizationMethod,
-                    int updateTime, int ordersSendTime) {
+                    int updateTime, int ordersSendTime, Collection<Shop> shops) {
         this.idShopify = idShopify;
         this.email = email;
         this.password = password;
         this.authorizationMethod = authorizationMethod;
         this.updateTime = updateTime;
         this.ordersSendTime = ordersSendTime;
+        this.shops = shops;
     }
 
     public UserData(User user) {
@@ -33,6 +39,7 @@ public class UserData {
         authorizationMethod = user.getProvider();
         updateTime = user.getUpdateTime();
         ordersSendTime = user.getOrdersSendTime();
+        shops = user.getShops();
     }
 
     public Long getIdShopify() {
@@ -91,6 +98,13 @@ public class UserData {
         this.ordersSendTime = ordersSendTime;
     }
 
+    public List<Shop> getShops() {
+        return new ArrayList<>(shops);
+    }
+
+    public void setShops(Collection<Shop> shops) {
+        this.shops = shops;
+    }
 
     @Override
     public boolean equals(Object o) {

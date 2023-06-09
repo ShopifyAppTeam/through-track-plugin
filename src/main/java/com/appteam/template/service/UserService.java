@@ -37,11 +37,11 @@ public class UserService {
     public List<UserData> getAllUsers() {
         List<User> users = repo.findAll();
         List<UserData> data = new ArrayList<>();
-        users.forEach(order -> data.add(populateUserData(order)));
+        users.forEach(user -> data.add(populateUserData(user)));
         return data;
     }
 
-    public UserData getUserByEmail(String email) {
+    public UserData getUserByEmail(String email) throws EntityNotFoundException {
         User user = repo.getUserByEmail(email);
         if (user != null) {
             return populateUserData(user);
@@ -59,19 +59,11 @@ public class UserService {
         user.setEnabled(data.isEnabled());
         user.setOrdersSendTime(data.getOrdersSendTime());
         user.setUpdateTime(data.getUpdateTime());
+        user.setShops(data.getShops());
         return user;
     }
 
     private UserData populateUserData(final User user) {
-        UserData data = new UserData();
-        data.setIdShopify(user.getIdShopify());
-        data.setEmail(user.getEmail());
-        data.setPassword(user.getPassword());
-        data.setEnabled(user.isEnabled());
-        data.setAuthorizationMethod(user.getProvider());
-        data.setOrdersSendTime(user.getOrdersSendTime());
-        data.setUpdateTime(user.getUpdateTime());
-        return data;
+        return new UserData(user);
     }
-
 }

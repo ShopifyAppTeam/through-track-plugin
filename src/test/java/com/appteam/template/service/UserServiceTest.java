@@ -4,6 +4,7 @@ import com.appteam.template.data.AuthorizationMethod;
 import com.appteam.template.data.User;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.dto.UserData;
+import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ public class UserServiceTest {
         Mockito.when(userRepositoryMock.getUserByEmail(Mockito.any(String.class))).thenReturn(null);
         for (int i = 0; i < 100; i++) {
             Long id = gen.nextLong();
-            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0);
+            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0, new ArrayList<>());
             User user = new User(userData);
             userList.add(user);
             Mockito.when(userRepositoryMock.save(user)).thenReturn(user);
@@ -80,7 +81,7 @@ public class UserServiceTest {
                 data.setEmail(email);
                 assertEquals(data, userService.getUserByEmail(email));
             } else {
-                assertThrows(EntityNotFoundException.class,
+                assertThrows(ResourceNotFoundException.class,
                         () -> userService.getUserByEmail(email),
                         "User not found");
             }

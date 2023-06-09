@@ -2,15 +2,12 @@ package com.appteam.template.data;
 
 import com.appteam.template.dto.UserData;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+
 @Entity
 @Table(name="user", schema = "through-track-plugin_db")
 public class User {
@@ -36,6 +33,8 @@ public class User {
 
     @Column(name="orders_send_time")
     private int ordersSendTime;
+    @OneToMany(fetch=FetchType.EAGER, mappedBy="user")
+    private Collection<Shop> shops;
 
     public User() {
     }
@@ -100,6 +99,13 @@ public class User {
         this.ordersSendTime = ordersSendTime;
     }
 
+    public List<Shop> getShops() {
+        return new ArrayList<>(shops);
+    }
+
+    public void setShops(Collection<Shop> shops) {
+        this.shops = shops;
+    }
 
     @Override
     public boolean equals(Object o) {

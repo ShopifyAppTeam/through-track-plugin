@@ -14,3 +14,12 @@ CREATE TABLE IF NOT EXISTS "user" (
     update_time int,
     orders_send_time int
 );
+
+CREATE TABLE IF NOT EXISTS "shop" (
+    subdomain text PRIMARY KEY,
+    token text,
+    enabled boolean,
+    auth_method character varying,
+    update_time int,
+    orders_send_time int
+);
