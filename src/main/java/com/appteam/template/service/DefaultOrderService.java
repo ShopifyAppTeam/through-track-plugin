@@ -62,6 +62,7 @@ public class DefaultOrderService implements OrderService {
         order.setService(data.getService());
         order.setMerchant(data.getMerchant());
         order.setStatus(data.getStatus());
+        order.setShop(data.getShop());
         return order;
     }
 
@@ -71,6 +72,7 @@ public class DefaultOrderService implements OrderService {
         data.setService(order.getService());
         data.setStatus(order.getStatus());
         data.setMerchant(order.getMerchant());
+        data.setShop(order.getShop());
         return data;
     }
 

@@ -2,6 +2,7 @@ package com.appteam.template.controller;
 
 import com.appteam.template.oauth.CustomOAuth2User;
 import com.appteam.template.service.DHLService;
+import com.appteam.template.service.UserService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +34,6 @@ public class SampleController {
         System.out.println("auth name: " + ((CustomOAuth2User)auth.getPrincipal()).getEmail());
         return new ResponseEntity<>("Greetings from Application!\n", HttpStatus.CREATED);
     }
-
 
     /**
      * Sample call to Shopify API
