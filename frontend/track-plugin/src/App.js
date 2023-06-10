@@ -12,6 +12,7 @@ import NotFound from './components/notfound/NotFound';
 import SignIn from './components/signin/SignIn';
 import SignUp from './components/signup/SignUp';
 import Orders from './components/orders/Orders';
+import Settings from './components/settings/Settings';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/orders" element={<Orders />}></Route>
             <Route path="/login" element={<SignIn />}></Route>
             <Route path="/register" element={<SignUp />}></Route>
+            <Route path="/settings" element={<Settings/>}></Route>
             <Route path="*" element={<NotFound/>}></Route>
 
           </Route>
