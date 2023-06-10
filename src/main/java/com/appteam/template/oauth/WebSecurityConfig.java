@@ -96,13 +96,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         userService.processOAuthPostLogin(oauthUser.getEmail());
                         Cookie cookie = new Cookie("name","12345");
-                        cookie.setPath("http://localhost:8080/");
-                        URL urlToRedirect = new URL("http://localhost:8080/");
-                        cookie.setDomain(urlToRedirect.getHost());
+//                        cookie.setPath("http://localhost:8080/");
+//                        URL urlToRedirect = new URL("http://localhost:8080/test/redirectedUrl");
+//                        cookie.setDomain(urlToRedirect.getHost());
                         response.addCookie(cookie);
+//                        response.sendRedirect("/test/redirectedUrl");;
                         response.setStatus(303);
-                        //response.sendRedirect("/");
-                        response.sendRedirect("https://oharadevelopershop.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=read_content%2Cwrite_content%2Cread_themes%2Cwrite_themes%2Cread_products%2Cwrite_products%2Cread_customers%2Cwrite_customers%2Cread_orders%2Cwrite_orders%2Cread_script_tags%2Cwrite_script_tags%2Cread_fulfillments%2Cwrite_fulfillments%2Cread_shipping%2Cwrite_shipping%2Cread_analytics&redirect_uri=http://localhost:8080");
+                        response.sendRedirect("https://java-shop1.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=read_content%2Cwrite_content%2Cread_themes%2Cwrite_themes%2Cread_products%2Cwrite_products%2Cread_customers%2Cwrite_customers%2Cread_orders%2Cwrite_orders%2Cread_script_tags%2Cwrite_script_tags%2Cread_fulfillments%2Cwrite_fulfillments%2Cread_shipping%2Cwrite_shipping%2Cread_analytics&redirect_uri=http://localhost:8080/test/redirectedUrl&state=12345");
                     }
                 })
                 .and()
@@ -113,3 +113,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 //http://localhost:8080/oauth2/authorization/google
+//oharadevelopershop
+//java-shop1

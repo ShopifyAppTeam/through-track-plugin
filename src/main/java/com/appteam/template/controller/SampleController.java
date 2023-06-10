@@ -30,8 +30,6 @@ public class SampleController {
 
     @GetMapping("/")
     public ResponseEntity<String> greetings() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("auth name: " + ((CustomOAuth2User)auth.getPrincipal()).getEmail());
         return new ResponseEntity<>("Greetings from Application!\n", HttpStatus.CREATED);
     }
 
