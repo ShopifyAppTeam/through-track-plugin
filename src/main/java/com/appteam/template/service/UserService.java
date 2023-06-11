@@ -25,23 +25,29 @@ public class UserService {
         return populateUserData(repo.save(user));
     }
 
-    public Boolean deleteUser(Long orderId) {
-        repo.deleteById(orderId);
-        return true;
+    public Boolean deleteUser(String email) {
+        User user = repo.getUserByEmail(email);
+        if (user != null) {
+            repo.delete(user);
+            return true;
+        }
+        return false;
     }
 
     public List<UserData> getAllUsers() {
         List<User> users = repo.findAll();
         List<UserData> data = new ArrayList<>();
-        users.forEach(order -> data.add(populateUserData(order)));
+        users.forEach(user -> data.add(populateUserData(user)));
         return data;
     }
 
-    public UserData getUserById(Long id) {
-        return populateUserData(repo.findById(id)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("User not found"))
-        );
+    public UserData getUserByEmail(String email) throws EntityNotFoundException {
+        User user = repo.getUserByEmail(email);
+        if (user != null) {
+            return populateUserData(user);
+        } else {
+            throw new EntityNotFoundException("User not found");
+        }
     }
 
     private User populateUserEntity(final UserData data) {
@@ -53,20 +59,11 @@ public class UserService {
         user.setEnabled(data.isEnabled());
         user.setOrdersSendTime(data.getOrdersSendTime());
         user.setUpdateTime(data.getUpdateTime());
+        user.setShops(data.getShops());
         return user;
     }
 
     private UserData populateUserData(final User user) {
-        UserData data = new UserData();
-        data.setId(user.getId());
-        data.setIdShopify(user.getIdShopify());
-        data.setEmail(user.getEmail());
-        data.setPassword(user.getPassword());
-        data.setEnabled(user.isEnabled());
-        data.setAuthorizationMethod(user.getProvider());
-        data.setOrdersSendTime(user.getOrdersSendTime());
-        data.setUpdateTime(user.getUpdateTime());
-        return data;
+        return new UserData(user);
     }
-
 }

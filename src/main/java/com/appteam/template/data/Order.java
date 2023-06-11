@@ -2,10 +2,7 @@ package com.appteam.template.data;
 
 import com.appteam.template.dto.OrderData;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +18,10 @@ public class Order {
     private String service;
     @Column(name="merchant")
     private String merchant;
+
+    @ManyToOne(optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="order_shop")
+    private Shop shop;
 
     public Order() {
     }
@@ -54,6 +55,14 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     @Override

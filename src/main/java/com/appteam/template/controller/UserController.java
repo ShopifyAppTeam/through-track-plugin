@@ -33,13 +33,13 @@ public class UserController {
         return new ResponseEntity<>(userService.saveUser(data), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserData> getUser(final @PathVariable Long id) {
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    @GetMapping("/{email}")
+    public ResponseEntity<UserData> getUser(final @PathVariable String email) {
+        return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(final @PathVariable Long id) {
-        return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
+    @DeleteMapping("/{email}")
+    public ResponseEntity<Boolean> deleteUser(final @PathVariable String email) {
+        return new ResponseEntity<>(userService.deleteUser(email), HttpStatus.OK);
     }
 }

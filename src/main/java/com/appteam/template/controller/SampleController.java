@@ -1,6 +1,7 @@
 package com.appteam.template.controller;
 
 import com.appteam.template.service.DHLService;
+import com.appteam.template.service.UserService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +25,6 @@ public class SampleController {
     public ResponseEntity<String> greetings() {
         return new ResponseEntity<>("Greetings from Application!\n", HttpStatus.CREATED);
     }
-
 
     /**
      * Sample call to Shopify API

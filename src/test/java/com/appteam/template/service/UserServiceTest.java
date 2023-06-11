@@ -4,6 +4,7 @@ import com.appteam.template.data.AuthorizationMethod;
 import com.appteam.template.data.User;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.dto.UserData;
+import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -30,14 +31,14 @@ public class UserServiceTest {
     List<User> userList = new ArrayList<>();
 
     {
-        Mockito.when(userRepositoryMock.findById(Mockito.any(Long.class))).thenReturn(Optional.empty());
+        Mockito.when(userRepositoryMock.getUserByEmail(Mockito.any(String.class))).thenReturn(null);
         for (int i = 0; i < 100; i++) {
             Long id = gen.nextLong();
-            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0);
+            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0, new ArrayList<>());
             User user = new User(userData);
             userList.add(user);
             Mockito.when(userRepositoryMock.save(user)).thenReturn(user);
-            Mockito.when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
+            Mockito.when(userRepositoryMock.getUserByEmail(user.getEmail())).thenReturn(user);
         }
         Mockito.when(userRepositoryMock.findAll()).thenReturn(userList);
     }
@@ -54,7 +55,7 @@ public class UserServiceTest {
     void deleteUserTest() {
         for (User user : userList) {
             UserData data = new UserData(user);
-            assertEquals(true, userService.deleteUser(data.getId()));
+            assertEquals(true, userService.deleteUser(data.getEmail()));
         }
     }
 
@@ -68,19 +69,20 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUserByIdTest() {
-        Map<Long, Long> orderMap = new HashMap<>();
+    void getUserByEmailTest() {
+        Map<String, String> userMap = new HashMap<>();
         for (User user : userList) {
-            orderMap.put(user.getId(), user.getId());
+            userMap.put(user.getEmail(), user.getEmail());
         }
         for (int i = 0; i < 50; i++) {
-            Long id = gen.nextLong();
-            if (orderMap.containsKey(id)) {
-                OrderData data = new OrderData(id, "");
-                assertEquals(data, userService.getUserById(id));
+            String email = Long.toString(gen.nextLong());
+            if (userMap.containsKey(email)) {
+                UserData data = new UserData();
+                data.setEmail(email);
+                assertEquals(data, userService.getUserByEmail(email));
             } else {
-                assertThrows(EntityNotFoundException.class,
-                        () -> userService.getUserById(id),
+                assertThrows(ResourceNotFoundException.class,
+                        () -> userService.getUserByEmail(email),
                         "User not found");
             }
         }
