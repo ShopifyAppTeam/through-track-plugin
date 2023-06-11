@@ -5,6 +5,8 @@ import com.appteam.template.data.OrderStatus;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.service.DefaultOrderService;
 import com.appteam.template.service.EmailService;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
+
     @Resource(name = "orderService")
     private DefaultOrderService orderService;
 
@@ -31,18 +34,18 @@ public class OrderController {
     private EmailService emailService;
 
     @GetMapping
-    public List<OrderData> allOrders() {
-        return orderService.getAllOrders();
+    public ResponseEntity<List<OrderData>> allOrders() {
+        return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
 
     @PostMapping
-    public OrderData addOrder(final @RequestBody OrderData data) {
-        return orderService.saveOrder(data);
+    public ResponseEntity<OrderData> addOrder(final @RequestBody OrderData data) {
+        return new ResponseEntity<>(orderService.saveOrder(data), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public OrderData getOrder(final @PathVariable Long id) {
-        return orderService.getOrderById(id);
+    public ResponseEntity<OrderData> getOrder(final @PathVariable Long id) {
+        return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -55,6 +58,7 @@ public class OrderController {
                                                         final @RequestParam String status) {
         return orderService.getUserOrdersByStatus(merchant, status);
     }
+
 
 //    @GetMapping("/status")
 //    public ResponseEntity<List<OrderData>> getOrdersByStatusesAndMerchant(final @RequestParam String merchant,
@@ -72,5 +76,4 @@ public class OrderController {
     public ResponseEntity<List<OrderData>> getUserOrders(final @RequestParam String user) {
         return new ResponseEntity<>(orderService.getUserOrders(user), HttpStatus.OK);
     }
-
 }

@@ -3,6 +3,7 @@ package com.appteam.template.service;
 import com.appteam.template.data.Order;
 import com.appteam.template.data.OrderStatus;
 import com.appteam.template.dto.OrderData;
+import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class DefaultOrderService implements OrderService {
     public OrderData getOrderById(Long id) {
         return populateOrderData(orderRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Order not found"))
+                        () -> new ResourceNotFoundException("Order not found"))
         );
     }
 
@@ -88,6 +89,7 @@ public class DefaultOrderService implements OrderService {
         order.setService(data.getService());
         order.setMerchant(data.getMerchant());
         order.setStatus(data.getStatus());
+        order.setShop(data.getShop());
         return order;
     }
 
@@ -97,6 +99,7 @@ public class DefaultOrderService implements OrderService {
         data.setService(order.getService());
         data.setStatus(order.getStatus());
         data.setMerchant(order.getMerchant());
+        data.setShop(order.getShop());
         return data;
     }
 
