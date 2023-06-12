@@ -1,48 +1,79 @@
 package com.appteam.template.service;
 
+import com.appteam.template.data.AuthorizationMethod;
+import com.appteam.template.data.Role;
 import com.appteam.template.data.User;
 import com.appteam.template.dto.UserData;
+import com.appteam.template.repository.RoleRepository;
 import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.PersistenceContext;
+import java.util.*;
 
 @Service("userService")
-public class UserService {
+public class UserService implements UserDetailsService {
+    @PersistenceContext
+    private EntityManager em;
     @Autowired
-    private UserRepository repo;
+    private UserRepository userRepository;
+    @Autowired
+    RoleRepository roleRepository;
+
+    public void processOAuthPostLogin(String email) {
+        System.out.println("processOAuth2Login invoked");
+        User existUser = userRepository.getUserByEmail(email);
+        if (existUser == null) {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setProvider(AuthorizationMethod.GOOGLE);
+            newUser.setEnabled(true);
+//            Set<Role> roles = new HashSet<>();
+//            roles.add(new Role("user"));
+//            newUser.setRoles(roles);
+
+            userRepository.save(newUser);
+            System.out.println("added new user");
+        }
+    }
+    public UserService(){}
 
     public UserService(UserRepository userRepository) {
-        repo = userRepository;
+        this.userRepository = userRepository;
     }
 
     public UserData saveUser(UserData userData) {
         User user = populateUserEntity(userData);
-        return populateUserData(repo.save(user));
+        //user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+
+        return populateUserData(userRepository.save(user));
     }
 
     public Boolean deleteUser(String email) {
-        User user = repo.getUserByEmail(email);
+        User user = userRepository.getUserByEmail(email);
         if (user != null) {
-            repo.delete(user);
+            userRepository.delete(user);
             return true;
         }
         return false;
     }
 
     public List<UserData> getAllUsers() {
-        List<User> users = repo.findAll();
+        List<User> users = userRepository.findAll();
         List<UserData> data = new ArrayList<>();
-        users.forEach(order -> data.add(populateUserData(order)));
+        users.forEach(user -> data.add(populateUserData(user)));
         return data;
     }
 
-    public UserData getUserByEmail(String email) {
-        User user = repo.getUserByEmail(email);
+    public UserData getUserByEmail(String email) throws EntityNotFoundException {
+        User user = userRepository.getUserByEmail(email);
         if (user != null) {
             return populateUserData(user);
         } else {
@@ -59,19 +90,22 @@ public class UserService {
         user.setEnabled(data.isEnabled());
         user.setOrdersSendTime(data.getOrdersSendTime());
         user.setUpdateTime(data.getUpdateTime());
+        user.setShops(data.getShops());
         return user;
     }
 
     private UserData populateUserData(final User user) {
-        UserData data = new UserData();
-        data.setIdShopify(user.getIdShopify());
-        data.setEmail(user.getEmail());
-        data.setPassword(user.getPassword());
-        data.setEnabled(user.isEnabled());
-        data.setAuthorizationMethod(user.getProvider());
-        data.setOrdersSendTime(user.getOrdersSendTime());
-        data.setUpdateTime(user.getUpdateTime());
-        return data;
+        return new UserData(user);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.getUserByEmail(email);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("Could not find user");
+        }
+
+        return new MyUserDetails(user);
+    }
 }

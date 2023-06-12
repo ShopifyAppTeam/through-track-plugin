@@ -1,16 +1,25 @@
 package com.appteam.template.controller;
 
+import com.appteam.template.oauth.CustomOAuth2User;
 import com.appteam.template.service.DHLService;
 import com.appteam.template.service.ParamsService;
+import com.appteam.template.service.UserService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestController
@@ -27,7 +36,6 @@ public class SampleController {
     public ResponseEntity<String> greetings() {
         return new ResponseEntity<>("Greetings from Application!\n", HttpStatus.CREATED);
     }
-
 
     /**
      * Sample call to Shopify API

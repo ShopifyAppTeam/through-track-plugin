@@ -2,18 +2,19 @@ package com.appteam.template.data;
 
 import com.appteam.template.dto.UserData;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
+import java.util.Objects;
+
 @Entity
 @Table(name="user", schema = "through-track-plugin_db")
 public class User {
+
     @Column(name="id_shopify")
     private Long idShopify;
 
@@ -36,7 +37,18 @@ public class User {
 
     @Column(name="orders_send_time")
     private int ordersSendTime;
+    @OneToMany(fetch=FetchType.EAGER, mappedBy="user")
+    private Collection<Shop> shops = new ArrayList<>();
 
+    /*
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+*/
     public User() {
     }
 
@@ -100,6 +112,13 @@ public class User {
         this.ordersSendTime = ordersSendTime;
     }
 
+    public List<Shop> getShops() {
+        return new ArrayList<>(shops);
+    }
+
+    public void setShops(Collection<Shop> shops) {
+        this.shops = shops;
+    }
 
     @Override
     public boolean equals(Object o) {
