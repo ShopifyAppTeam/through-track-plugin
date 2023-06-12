@@ -71,7 +71,6 @@ flyway {
     password = 'pswd'
     schemas = ['through-track-plugin_db']
     locations = ['filesystem:.src/main/resources/db/migration']
-
 }
 
 tasks.named('test') {

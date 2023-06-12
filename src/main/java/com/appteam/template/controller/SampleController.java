@@ -2,6 +2,7 @@ package com.appteam.template.controller;
 
 import com.appteam.template.oauth.CustomOAuth2User;
 import com.appteam.template.service.DHLService;
+import com.appteam.template.service.ParamsService;
 import com.appteam.template.service.UserService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
@@ -23,10 +24,12 @@ import java.util.Optional;
 
 @RestController
 public class SampleController {
-    private final DHLService DHLservice;
+    private final DHLService dhlService;
+    private final ParamsService paramsService;
 
-    public SampleController(DHLService DHLservice) {
-        this.DHLservice = DHLservice;
+    public SampleController(DHLService DHLservice, ParamsService paramsService) {
+        this.dhlService = DHLservice;
+        this.paramsService = paramsService;
     }
 
     @GetMapping("/")
@@ -39,19 +42,39 @@ public class SampleController {
      */
 
     @GetMapping("/my-store-info")
-    public ResponseEntity<String> myStoreInfo() {
-        String token = "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"; // API token, generated in store
-        String subdomain = "appteamtest";
-        final ShopifySdk shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
-        final ShopifyShop shopifyShop = shopifySdk.getShop();
-        return new ResponseEntity<>(shopifyShop.getShop().getName(), HttpStatus.CREATED);
+    public String myStoreInfo() {
+        try {
+            String token = "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"; // API token, generated in store
+            String subdomain = "appteamtest";
+            final ShopifySdk shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
+            final ShopifyShop shopifyShop = shopifySdk.getShop();
+            return shopifyShop.getShop().getName();
+        } catch (Exception exc) {
+            return exc.getMessage();
+        }
     }
 
     /**
      * Call to DHL API, that updates shipment status in database and returns it
      */
-    @GetMapping("/my-shipment-status")
-    public ResponseEntity<String> myShipmentStatus(@RequestParam Optional<String> id) {
-        return new ResponseEntity<>(DHLservice.getShipmentInfo(id.orElse(null)), HttpStatus.OK);
+    @GetMapping("/update")
+    public ResponseEntity<String> updateShipmentStatus(@RequestParam Optional<String> id, @RequestParam Optional<String> user) {
+        return new ResponseEntity<>(dhlService.updateShipmentInfo(id.orElse(null), user.orElse("test@gmail.com")), HttpStatus.OK);
+    }
+
+    @GetMapping("/update-all")
+    public void updateShipmentStatus() {
+        dhlService.updateAllShipmentsStatus();
+    }
+
+    @GetMapping("/set-shipment-time")
+    public void setShipmentTime(@RequestParam Optional<Integer> time, @RequestParam Optional<String> user) {
+        time.ifPresent(integer -> paramsService.setShipmentTimeParam(integer, user.orElse("test@gmail.com")));
+    }
+
+    @GetMapping("/set-update-time")
+    public void setUpdateTime(@RequestParam Optional<Integer> time, @RequestParam Optional<String> user) {
+        user.ifPresent(System.err::println);
+        time.ifPresent(integer -> paramsService.setUpdateTimeParam(integer, user.orElse("test@gmail.com")));
     }
 }
