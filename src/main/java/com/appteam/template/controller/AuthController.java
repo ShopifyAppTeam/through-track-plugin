@@ -36,7 +36,9 @@ public class AuthController {
     @GetMapping("/1")
     public void redirectWithUsingRedirectView(final HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+        for (int i = 0; i < request.getCookies().length; i++) {
+            System.out.println("cookie from /1: " + request.getCookies()[i].getName() + " " + request.getCookies()[i].getValue());
+        }
         System.out.println("auth name from /1: " + ((CustomOAuth2User) auth.getPrincipal()).getEmail());
     }
 
@@ -68,9 +70,9 @@ public class AuthController {
         Shop shopToSave = new Shop();
         shopToSave.setSubdomain(shop);
         shopToSave.setToken(token);
-        User user = null; // get user by email
+        User user = null; // TODO get user by email
         shopToSave.setUser(user);
-        // save shop to bd;
+        //TODO save shop to bd;
 
         return "hello";
     }
