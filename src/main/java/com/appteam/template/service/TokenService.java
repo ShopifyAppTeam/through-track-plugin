@@ -17,6 +17,9 @@ public class TokenService {
     @Autowired
     private TokenRepository tokenRepository;
 
+    public TokenService(){
+    }
+
     public TokenService(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }

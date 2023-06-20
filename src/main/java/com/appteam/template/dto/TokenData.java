@@ -9,12 +9,17 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TokenData {
     private String key;
     private String email;
+
+    private static final SecureRandom secureRandom = new SecureRandom();
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
 
     public TokenData(){
     }
@@ -29,9 +34,12 @@ public class TokenData {
         this.email = token.getEmail();
     }
 
+
     public static TokenData generate(String email) {
-        //TODO
-        return new TokenData("123", email);
+        byte[] randomBytes = new byte[24];
+        secureRandom.nextBytes(randomBytes);
+        String token = base64Encoder.encodeToString(randomBytes);
+        return new TokenData(token, email);
     }
 
     public JSONObject toJSON() {

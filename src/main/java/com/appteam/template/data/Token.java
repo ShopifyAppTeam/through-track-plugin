@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "token", schema = "through-track-plugin_db")
 public class Token {
     @Id
-    @Column(name="key")
+    @Column(name="token")
     private String key;
 
     @Column(name="email")

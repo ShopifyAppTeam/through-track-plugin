@@ -19,13 +19,15 @@ public class UserData {
     private String password;
     private boolean enabled = false;
     private AuthorizationMethod authorizationMethod;
+
+    private String currentShop;
     private int updateTime;
     private int ordersSendTime;
 
     private Collection<Shop> shops;
     public UserData() {
     }
-    public UserData(Long idShopify, String email, String password, AuthorizationMethod authorizationMethod,
+    public UserData(Long idShopify, String email, String password, AuthorizationMethod authorizationMethod, String currentShop,
                     int updateTime, int ordersSendTime, Collection<Shop> shops) {
         this.idShopify = idShopify;
         this.email = email;
@@ -34,6 +36,7 @@ public class UserData {
         this.updateTime = updateTime;
         this.ordersSendTime = ordersSendTime;
         this.shops = shops;
+        this.currentShop = currentShop;
     }
 
     public UserData(User user) {
@@ -45,6 +48,7 @@ public class UserData {
         updateTime = user.getUpdateTime();
         ordersSendTime = user.getOrdersSendTime();
         shops = user.getShops();
+        currentShop = user.getCurrentShop();
     }
 
     public Long getIdShopify() {
@@ -109,6 +113,14 @@ public class UserData {
 
     public void setShops(Collection<Shop> shops) {
         this.shops = shops;
+    }
+
+    public String getCurrentShop() {
+        return currentShop;
+    }
+
+    public void setCurrentShop(String currentShop) {
+        this.currentShop = currentShop;
     }
 
     @Override

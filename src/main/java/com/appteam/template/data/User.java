@@ -32,23 +32,17 @@ public class User {
     @Column(name="auth_method")
     private AuthorizationMethod authorizationMethod;
 
+    @Column(name="current_shop")
+    private String currentShop;
+
     @Column(name="update_time")
     private int updateTime;
 
     @Column(name="orders_send_time")
     private int ordersSendTime;
     @OneToMany(fetch=FetchType.EAGER, mappedBy="user")
-    private Collection<Shop> shops = new ArrayList<>();
+    private Collection<Shop> shops = new HashSet<>();
 
-    /*
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
-*/
     public User() {
     }
 
@@ -118,6 +112,22 @@ public class User {
 
     public void setShops(Collection<Shop> shops) {
         this.shops = shops;
+    }
+
+    public AuthorizationMethod getAuthorizationMethod() {
+        return authorizationMethod;
+    }
+
+    public void setAuthorizationMethod(AuthorizationMethod authorizationMethod) {
+        this.authorizationMethod = authorizationMethod;
+    }
+
+    public String getCurrentShop() {
+        return currentShop;
+    }
+
+    public void setCurrentShop(String currentShop) {
+        this.currentShop = currentShop;
     }
 
     @Override

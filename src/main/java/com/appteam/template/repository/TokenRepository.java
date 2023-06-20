@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface TokenRepository extends JpaRepository<Token, String> {
-    @Query("SELECT u FROM Token u WHERE u.key = :key")
-    public Token getTokenByKey(@Param("key") String key);
+    @Query("SELECT u FROM Token u WHERE u.key = :token")
+    public Token getTokenByKey(@Param("token") String key);
 }

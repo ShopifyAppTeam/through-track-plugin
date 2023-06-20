@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,8 @@ import java.util.List;
 public class UserController {
     @Resource(name = "userService")
     private UserService userService;
+
+    private final AuthController authController = new AuthController();
 
     @GetMapping
     public ResponseEntity<List<UserData>> allUsers() {
@@ -34,12 +37,18 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<UserData> getUser(final @PathVariable String email) {
+    public ResponseEntity<UserData> getUser(final @PathVariable String email, final HttpServletRequest request) {
+        if (authController.getEmailFromRequest(request).equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
         return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
     @DeleteMapping("/{email}")
-    public ResponseEntity<Boolean> deleteUser(final @PathVariable String email) {
+    public ResponseEntity<Boolean> deleteUser(final @PathVariable String email, final HttpServletRequest request) {
+        if (authController.getEmailFromRequest(request).equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
         return new ResponseEntity<>(userService.deleteUser(email), HttpStatus.OK);
     }
 }
