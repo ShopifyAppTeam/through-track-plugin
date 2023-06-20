@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService {
         if (user != null) {
             return populateUserData(user);
         } else {
-            throw new EntityNotFoundException("User not found");
+            return null;
         }
     }
 

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.measure.unit.SystemOfUnits;
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +67,7 @@ public class AuthController {
         System.out.println("request: " + request);
         for (Cookie cookie : request.getCookies()) {
             System.out.println(cookie.getName());
-            if (Objects.equals(cookie.getName(), "token")) {
+            if (cookie.getName().startsWith("token")) {
                 try {
                     JSONObject json = new JSONObject(URLDecoder.decode(cookie.getValue(), "UTF-8"));
                     String tokenKey = json.getString("token");

@@ -50,7 +50,7 @@ public class TokenService {
         if(token != null) {
             return new TokenData(token);
         } else {
-            throw new EntityNotFoundException("Token not found");
+            return null;
         }
     }
 }

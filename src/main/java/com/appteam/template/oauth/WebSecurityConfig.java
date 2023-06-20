@@ -105,8 +105,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         TokenData tokenData = TokenData.generate(oauthUser.getEmail());
                         tokenService.saveToken(tokenData);
-                        Cookie cookie = new Cookie("token", URLEncoder.encode(tokenData.toJSON().toString(), "UTF-8"));
-//                        cookie.setPath("/");
+                        Cookie cookie = new Cookie("token" + tokenData.getKey().substring(0, 4), URLEncoder.encode(tokenData.toJSON().toString(), "UTF-8"));
+                        cookie.setPath("/");
 //                        URL urlToRedirect = new URL("http://localhost:8080/test/redirectedUrl");
 //                        cookie.setDomain(urlToRedirect.getHost());
                         response.addCookie(cookie);
