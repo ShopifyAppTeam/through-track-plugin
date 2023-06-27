@@ -66,7 +66,7 @@ public class AuthController {
         TokenData tokenData = null;
         System.out.println("request: " + request);
         for (Cookie cookie : request.getCookies()) {
-            System.out.println(cookie.getName());
+            //System.out.println(cookie.getName());
             if (cookie.getName().startsWith("token")) {
                 try {
                     JSONObject json = new JSONObject(URLDecoder.decode(cookie.getValue(), "UTF-8"));

@@ -63,10 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
-        return authConfiguration.getAuthenticationManager();
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
+//        return authConfiguration.getAuthenticationManager();
+//    }
 
 
     @Override
@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/**", "/login", "/oauth/**").permitAll()
+                .antMatchers("/", "/login", "/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -107,6 +107,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         tokenService.saveToken(tokenData);
                         Cookie cookie = new Cookie("token" + tokenData.getKey().substring(0, 4), URLEncoder.encode(tokenData.toJSON().toString(), "UTF-8"));
                         cookie.setPath("/");
+                        cookie.setMaxAge(24 * 60 * 60);
 //                        URL urlToRedirect = new URL("http://localhost:8080/test/redirectedUrl");
 //                        cookie.setDomain(urlToRedirect.getHost());
                         response.addCookie(cookie);
