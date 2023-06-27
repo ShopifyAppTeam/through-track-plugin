@@ -46,6 +46,10 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
     public UserData saveUser(UserData userData) {
         User user = populateUserEntity(userData);
         return populateUserData(userRepository.save(user));

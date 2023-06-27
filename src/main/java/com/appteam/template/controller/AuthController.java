@@ -103,6 +103,24 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/add_shop/{subdomain}/code={code}")
+    public ResponseEntity<Boolean> addShop(final @PathVariable String subdomain, final @PathVariable String code,
+                                           final HttpServletRequest request) {
+        String email = getEmailFromRequest(request);
+        if (email.isEmpty()) {
+            return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);
+        } else {
+            String token = null; //TODO: get token from shopify
+            User user = userService.getUserRepository().getUserByEmail(email);
+            if(user == null){
+                return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);
+            }
+            ShopData shopData = new ShopData(subdomain, token, user, new ArrayList<>());
+            shopService.saveShop(shopData);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+    }
+
     @GetMapping("/delete_shop/{subdomain}")
     public ResponseEntity<Boolean> deleteShop(final @PathVariable String subdomain, final HttpServletRequest request) {
         if (getEmailFromRequest(request).equals("")) {
