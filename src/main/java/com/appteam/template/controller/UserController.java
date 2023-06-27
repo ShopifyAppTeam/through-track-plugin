@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -51,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/shops")
-    public ResponseEntity<JSONObject> getUserShops(final HttpServletRequest request) {
+    public ResponseEntity<List<String>> getUserShops(final HttpServletRequest request) {
         String email = authController.getEmailFromRequest(request);
         if(email.equals("")) {
             return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
@@ -61,11 +63,7 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
         }
         Collection<Shop> shops = userData.getShops();
-        JSONObject jsonObject = new JSONObject();
-        for (Shop shop : shops) {
-            jsonObject.append("shop", shop.getSubdomain());
-        }
-        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+        return new ResponseEntity<>(shops.stream().map(Shop::getSubdomain).collect(Collectors.toList()), HttpStatus.OK);
     }
 
 

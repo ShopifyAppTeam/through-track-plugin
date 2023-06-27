@@ -107,12 +107,12 @@ public class AuthController {
 
     @GetMapping("/add_shop/{subdomain}/code={code}")
     public ResponseEntity<Boolean> addShop(final @PathVariable String subdomain, final @PathVariable String code,
-                                           final HttpServletRequest request) {
+                                           final HttpServletRequest request) throws URISyntaxException, IOException, InterruptedException {
         String email = getEmailFromRequest(request);
         if (email.isEmpty()) {
             return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);
         } else {
-            String token = null; //TODO: get token from shopify
+            String token = getTokenFromShopify(code, subdomain);
             User user = userService.getUserRepository().getUserByEmail(email);
             if(user == null){
                 return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);
@@ -129,6 +129,22 @@ public class AuthController {
             return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
         }
         return new ResponseEntity<>(shopService.deleteShop(subdomain), HttpStatus.OK);
+    }
+
+    private String getTokenFromShopify(String code, String subdomain) throws URISyntaxException, IOException, InterruptedException {
+        String url = "https://" + subdomain + "/admin/oauth/access_token?client_id=" + "62c60904ece30e9454ebd81fccc7882c" + "&client_secret=" + "30fbc33a2d764f0f1338cd2d94e95551" + "&code=" + code;
+        String token = "";
+        URI uri = new URI("https://" + subdomain + "/admin/oauth/access_token");
+        HttpRequest requestToShopify = HttpRequest.newBuilder()
+                .uri(java.net.URI.create(url))
+                .header("client_id", "62c60904ece30e9454ebd81fccc7882c")
+                .header("client_secret", "30fbc33a2d764f0f1338cd2d94e95551")
+                .header("code", code)
+                .method("GET", java.net.http.HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(requestToShopify, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response);
+        return "";
     }
 
     @GetMapping("/redirectedUrl")
