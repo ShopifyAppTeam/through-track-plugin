@@ -32,16 +32,13 @@ public class User {
     @Column(name="auth_method")
     private AuthorizationMethod authorizationMethod;
 
-    @Column(name="current_shop")
-    private String currentShop;
-
     @Column(name="update_time")
     private int updateTime;
 
     @Column(name="orders_send_time")
     private int ordersSendTime;
     @OneToMany(fetch=FetchType.EAGER, mappedBy="user")
-    private Collection<Shop> shops = new HashSet<>();
+    private Collection<Shop> shops = new ArrayList<>();
 
     public User() {
     }
@@ -120,14 +117,6 @@ public class User {
 
     public void setAuthorizationMethod(AuthorizationMethod authorizationMethod) {
         this.authorizationMethod = authorizationMethod;
-    }
-
-    public String getCurrentShop() {
-        return currentShop;
-    }
-
-    public void setCurrentShop(String currentShop) {
-        this.currentShop = currentShop;
     }
 
     @Override

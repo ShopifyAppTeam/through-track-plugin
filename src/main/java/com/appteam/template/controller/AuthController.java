@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,9 +65,10 @@ public class AuthController {
 
     public TokenData getTokenDataFromRequest(final HttpServletRequest request) {
         TokenData tokenData = null;
-        System.out.println("request: " + request);
         for (Cookie cookie : request.getCookies()) {
-            //System.out.println(cookie.getName());
+            if (cookie == null) {
+                continue;
+            }
             if (cookie.getName().startsWith("token")) {
                 try {
                     JSONObject json = new JSONObject(URLDecoder.decode(cookie.getValue(), "UTF-8"));
@@ -95,11 +97,11 @@ public class AuthController {
 
     @GetMapping("/check")
     public ResponseEntity<String> isAutorized(final HttpServletRequest request) {
-        String email = getEmailFromRequest(request);
-        if (email.isEmpty()) {
-            return new ResponseEntity<>("user is not autorized", HttpStatus.OK);
+        TokenData tokenData = getTokenDataFromRequest(request);
+        if (tokenData == null) {
+            return new ResponseEntity<>("user is not autorized", HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(email, HttpStatus.OK);
+            return new ResponseEntity<>(tokenData.getEmail(), HttpStatus.OK);
         }
     }
 
@@ -127,38 +129,6 @@ public class AuthController {
             return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
         }
         return new ResponseEntity<>(shopService.deleteShop(subdomain), HttpStatus.OK);
-    }
-
-    @GetMapping("/change_current_shop/{subdomain}")
-    public ResponseEntity<Boolean> changeCurrentShop(final @PathVariable String subdomain, final HttpServletRequest request) {
-        String email = getEmailFromRequest(request);
-        if (email.equals("")) {
-            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
-        }
-        UserData userData = userService.getUserByEmail(email);
-        if (userData == null || shopService.getShopBySubdomain(subdomain) == null ||
-                !shopService.getShopBySubdomain(subdomain).getUser().getEmail().equals(email)) {
-            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
-        }
-        userData.setCurrentShop(subdomain);
-        userService.saveUser(userData);
-        return new ResponseEntity<>(true, HttpStatus.OK);
-    }
-
-    @GetMapping("/shop-rights-page/{shopName}")
-    public RedirectView redirectWithUsingRedirectView(RedirectAttributes attributes) {
-        attributes.addFlashAttribute("flashAttribute", "redirectWithRedirectView");
-        attributes.addAttribute("attribute", "redirectWithRedirectView");
-        return new RedirectView("redirectedUrl");
-    }
-
-    @GetMapping("/1")
-    public void redirectWithUsingRedirectView(final HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        for (int i = 0; i < request.getCookies().length; i++) {
-            System.out.println("cookie from /1: " + request.getCookies()[i].getName() + " " + request.getCookies()[i].getValue());
-        }
-        System.out.println("auth name from /1: " + ((CustomOAuth2User) auth.getPrincipal()).getEmail());
     }
 
     @GetMapping("/redirectedUrl")

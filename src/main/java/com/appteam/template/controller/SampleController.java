@@ -55,10 +55,8 @@ public class SampleController {
         if (email.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
         }
-        String subdomain = userService.getUserByEmail(email).getCurrentShop();
-        String token = shopService.getShopBySubdomain(subdomain).getToken();
-//        String token = "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"; // API token, generated in store
-//        String subdomain = "appteamtest";
+        String token = "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"; // API token, generated in store
+        String subdomain = "appteamtest";
         final ShopifySdk shopifySdk = ShopifySdk.newBuilder().withSubdomain(subdomain).withAccessToken(token).build();
         final ShopifyShop shopifyShop = shopifySdk.getShop();
         return new ResponseEntity<>(shopifyShop.getShop().getName(), HttpStatus.CREATED);
