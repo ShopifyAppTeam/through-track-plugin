@@ -112,7 +112,7 @@ public class AuthController {
         if (email.isEmpty()) {
             return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);
         } else {
-            String token = getTokenFromShopify(code, subdomain);
+            String token = "";//getTokenFromShopify(code, subdomain);
             User user = userService.getUserRepository().getUserByEmail(email);
             if(user == null){
                 return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);

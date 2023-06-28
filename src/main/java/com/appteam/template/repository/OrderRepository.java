@@ -16,4 +16,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             @Param("merchant") String merchant,
             @Param("status") String status);
 
+
+    @Query("SELECT o From Order o where o.merchant = :merchant")
+    List<Order> findUserOrders(
+            @Param("merchant") String merchant);
 }
