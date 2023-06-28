@@ -101,6 +101,6 @@ public class DHLService {
             shipmentsStatus.append(updateShipmentInfo(order.getId().toString(), user.getEmail()));
             shipmentsStatus.append("\n");
         }
-        //notificationService.sendSimpleMessage(user.getEmail(), "Shopify shipments update", shipmentsStatus.toString());
+        notificationService.sendSimpleMessage(user.getEmail(), "Shopify shipments update", shipmentsStatus.toString());
     }
 }
