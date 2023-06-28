@@ -52,9 +52,9 @@ class OrderStatusNotificationServiceTest {
         Mockito.doAnswer(i -> mailReceiver.add((SimpleMailMessage) i.getArguments()[0])).when(jms).send(argThat(new IsSimpleMailMsg()));
         Mockito.when(os.getUserOrdersByStatus("user", "status1")).thenReturn(List.of());
         Mockito.when(os.getUserOrdersByStatus("user", "status2")).thenReturn(
-                List.of(new OrderData(1L, "service1", "user", "status2"),
-                        new OrderData(1L, "service2", "user", "status2"),
-                        new OrderData(1L, "service3", "user", "status2"))
+                List.of(new OrderData(1L, "service1", "user", "status2", null),
+                        new OrderData(1L, "service2", "user", "status2", null),
+                        new OrderData(1L, "service3", "user", "status2", null))
         );
     }
     @Test

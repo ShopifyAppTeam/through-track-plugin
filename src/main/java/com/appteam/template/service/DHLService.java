@@ -23,6 +23,8 @@ public class DHLService {
     private OrderService orderService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderStatusNotificationService notificationService;
 
     private void sendDataFromResponse(HttpResponse<String> response, String email) throws NoSuchElementException {
         JSONObject responseObject = new JSONObject(response.body());
@@ -35,14 +37,14 @@ public class DHLService {
             Long id = order.getLong("id");
             String service = order.getString("service");
             String status = order.getJSONObject("status").toString();
-            OrderData data = new OrderData(id, service, email, status);
+            OrderData data = new OrderData(id, service, email, status, null);
             // push data to database
             orderService.saveOrder(data);
         }
     }
 
     private void setOrderAsNotFound(String shipmentId, String email) {
-        OrderData data = new OrderData(Long.parseLong(shipmentId), "service", email, "Order not found");
+        OrderData data = new OrderData(Long.parseLong(shipmentId), "service", email, "Order not found", null);
         orderService.saveOrder(data);
     }
 
@@ -58,6 +60,9 @@ public class DHLService {
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             sendDataFromResponse(response, email);
+            if (updateTimers.get(email) == null) {
+                updateUserShipments(userService.getUserByEmail(email));
+            }
             return response.body();
         } catch (Exception exc) {
             setOrderAsNotFound(shipmentId, email);
@@ -90,8 +95,12 @@ public class DHLService {
     private void updateUserShipments(UserData user) {
         List<OrderData> userOrders = orderService.getAllOrders().stream()
                 .filter(order -> user.getEmail().equals(order.getMerchant())).collect(Collectors.toList());
+        StringBuilder shipmentsStatus = new StringBuilder();
         for (OrderData order : userOrders) {
             updateShipmentInfo(order.getId().toString(), user.getEmail());
+            shipmentsStatus.append(updateShipmentInfo(order.getId().toString(), user.getEmail()));
+            shipmentsStatus.append("\n");
         }
+        //notificationService.sendSimpleMessage(user.getEmail(), "Shopify shipments update", shipmentsStatus.toString());
     }
 }

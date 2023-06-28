@@ -82,7 +82,7 @@ public class SampleController {
     }
     @GetMapping("/update")
     public ResponseEntity<String> updateShipmentStatus(@RequestParam Optional<String> id, @RequestParam Optional<String> user) {
-        return new ResponseEntity<>(dhlService.updateShipmentInfo(id.orElse(null), user.orElse("test@gmail.com")), HttpStatus.OK);
+        return new ResponseEntity<>(dhlService.updateShipmentInfo(id.orElse(null), user.orElse("shopifyabobatest@mail.ru")), HttpStatus.OK);
     }
 
     @GetMapping("/update-all")
