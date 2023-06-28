@@ -1,0 +1,3 @@
+[submodule "plugin-frontend"]
+	path = plugin-frontend
+	url = https://github.com/ShopifyAppTeam/plugin-frontend.git
