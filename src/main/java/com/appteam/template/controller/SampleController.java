@@ -73,13 +73,13 @@ public class SampleController {
      * Call to DHL API, that updates shipment status in database and returns it
      */
 
-    @GetMapping("/my-shipment-status")
-    public ResponseEntity<String> myShipmentStatus(@RequestParam Optional<String> id, final HttpServletRequest request) {
-        if (authController.getEmailFromRequest(request).equals("")) {
-            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
-        }
-        return new ResponseEntity<>(DHLservice.getShipmentInfo(id.orElse(null)), HttpStatus.OK);
-    }
+//    @GetMapping("/my-shipment-status")
+//    public ResponseEntity<String> myShipmentStatus(@RequestParam Optional<String> id, final HttpServletRequest request) {
+//        if (authController.getEmailFromRequest(request).equals("")) {
+//            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+//        }
+//        return new ResponseEntity<>(DHLservice.getShipmentInfo(id.orElse(null)), HttpStatus.OK);
+//    }
     @GetMapping("/update")
     public ResponseEntity<String> updateShipmentStatus(@RequestParam Optional<String> id, @RequestParam Optional<String> user) {
         return new ResponseEntity<>(dhlService.updateShipmentInfo(id.orElse(null), user.orElse("shopifyabobatest@mail.ru")), HttpStatus.OK);
