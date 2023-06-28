@@ -57,7 +57,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	compile 'org.flywaydb:flyway-core'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    compile 'org.flywaydb:flyway-core'
 	runtimeOnly 'org.postgresql:postgresql'
 
 

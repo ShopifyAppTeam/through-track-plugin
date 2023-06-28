@@ -40,15 +40,6 @@ public class User {
     @OneToMany(fetch=FetchType.EAGER, mappedBy="user")
     private Collection<Shop> shops = new ArrayList<>();
 
-    /*
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
-*/
     public User() {
     }
 
@@ -118,6 +109,14 @@ public class User {
 
     public void setShops(Collection<Shop> shops) {
         this.shops = shops;
+    }
+
+    public AuthorizationMethod getAuthorizationMethod() {
+        return authorizationMethod;
+    }
+
+    public void setAuthorizationMethod(AuthorizationMethod authorizationMethod) {
+        this.authorizationMethod = authorizationMethod;
     }
 
     @Override

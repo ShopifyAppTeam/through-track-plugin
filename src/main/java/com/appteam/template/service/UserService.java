@@ -35,9 +35,6 @@ public class UserService implements UserDetailsService {
             newUser.setEmail(email);
             newUser.setProvider(AuthorizationMethod.GOOGLE);
             newUser.setEnabled(true);
-//            Set<Role> roles = new HashSet<>();
-//            roles.add(new Role("user"));
-//            newUser.setRoles(roles);
 
             userRepository.save(newUser);
             System.out.println("added new user");
@@ -49,10 +46,12 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
     public UserData saveUser(UserData userData) {
         User user = populateUserEntity(userData);
-        //user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
-
         return populateUserData(userRepository.save(user));
     }
 
@@ -77,21 +76,12 @@ public class UserService implements UserDetailsService {
         if (user != null) {
             return populateUserData(user);
         } else {
-            throw new EntityNotFoundException("User not found");
+            return null;
         }
     }
 
     private User populateUserEntity(final UserData data) {
-        User user = new User();
-        user.setIdShopify(data.getIdShopify());
-        user.setProvider(data.getAuthorizationMethod());
-        user.setEmail(data.getEmail());
-        user.setPassword(data.getPassword());
-        user.setEnabled(data.isEnabled());
-        user.setOrdersSendTime(data.getOrdersSendTime());
-        user.setUpdateTime(data.getUpdateTime());
-        user.setShops(data.getShops());
-        return user;
+        return new User(data);
     }
 
     private UserData populateUserData(final User user) {

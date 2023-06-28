@@ -48,7 +48,7 @@ public class ShopService {
         if (shop != null) {
             return populateShopData(shop);
         } else {
-            throw new EntityNotFoundException("User not found");
+            return null;
         }
     }
 

@@ -1,7 +1,11 @@
 package com.appteam.template.controller;
 
+import com.appteam.template.data.Shop;
 import com.appteam.template.dto.UserData;
 import com.appteam.template.service.UserService;
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +19,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Resource(name = "userService")
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthController authController;
 
     @GetMapping
     public ResponseEntity<List<UserData>> allUsers() {
@@ -34,12 +45,33 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<UserData> getUser(final @PathVariable String email) {
+    public ResponseEntity<UserData> getUser(final @PathVariable String email, final HttpServletRequest request) {
+        if (authController.getEmailFromRequest(request).equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
         return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
+    @GetMapping("/shops")
+    public ResponseEntity<List<String>> getUserShops(final HttpServletRequest request) {
+        String email = authController.getEmailFromRequest(request);
+        if(email.equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
+        UserData userData = userService.getUserByEmail(email);
+        if(userData == null) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
+        Collection<Shop> shops = userData.getShops();
+        return new ResponseEntity<>(shops.stream().map(Shop::getSubdomain).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{email}")
-    public ResponseEntity<Boolean> deleteUser(final @PathVariable String email) {
+    public ResponseEntity<Boolean> deleteUser(final @PathVariable String email, final HttpServletRequest request) {
+        if (authController.getEmailFromRequest(request).equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
         return new ResponseEntity<>(userService.deleteUser(email), HttpStatus.OK);
     }
 }

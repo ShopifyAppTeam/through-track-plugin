@@ -19,13 +19,15 @@ public class UserData {
     private String password;
     private boolean enabled = false;
     private AuthorizationMethod authorizationMethod;
+
     private int updateTime;
     private int ordersSendTime;
 
     private Collection<Shop> shops;
     public UserData() {
+        shops = new ArrayList<>();
     }
-    public UserData(Long idShopify, String email, String password, AuthorizationMethod authorizationMethod,
+    public UserData(Long idShopify, String email, String password, AuthorizationMethod authorizationMethod, String currentShop,
                     int updateTime, int ordersSendTime, Collection<Shop> shops) {
         this.idShopify = idShopify;
         this.email = email;

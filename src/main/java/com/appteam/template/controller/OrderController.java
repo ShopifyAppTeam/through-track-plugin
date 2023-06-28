@@ -6,6 +6,7 @@ import com.appteam.template.dto.OrderData;
 import com.appteam.template.service.DefaultOrderService;
 import com.appteam.template.service.EmailService;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,8 +35,11 @@ public class OrderController {
     @Resource(name = "emailService")
     private EmailService emailService;
 
+    private final AuthController authController = new AuthController();
+
     @GetMapping
     public ResponseEntity<List<OrderData>> allOrders() {
+
         return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
 
@@ -44,19 +49,29 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderData> getOrder(final @PathVariable Long id) {
+    public ResponseEntity<OrderData> getOrder(final @PathVariable Long id, final HttpServletRequest request) {
+        if (authController.getEmailFromRequest(request).equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
         return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteOrder(final @PathVariable Long id) {
-        return orderService.deleteOrder(id);
+    public ResponseEntity<Boolean> deleteOrder(final @PathVariable Long id, final HttpServletRequest request) {
+        if (authController.getEmailFromRequest(request).equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
+        return new ResponseEntity<>(orderService.deleteOrder(id), HttpStatus.OK);
     }
 
     @GetMapping("/status")
-    public List<OrderData> getOrdersByStatusAndMerchant(final @RequestParam String merchant,
-                                                        final @RequestParam String status) {
-        return orderService.getUserOrdersByStatus(merchant, status);
+    public ResponseEntity<List<OrderData>> getOrdersByStatusAndMerchant(final @RequestParam String merchant,
+                                                                        final @RequestParam String status,
+                                                                        final HttpServletRequest request) {
+        if (authController.getEmailFromRequest(request).equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        }
+        return new ResponseEntity<>(orderService.getUserOrdersByStatus(merchant, status), HttpStatus.OK);
     }
 
 

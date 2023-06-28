@@ -34,11 +34,9 @@ public class UserServiceTest {
         Mockito.when(userRepositoryMock.getUserByEmail(Mockito.any(String.class))).thenReturn(null);
         for (int i = 0; i < 100; i++) {
             Long id = gen.nextLong();
-<<<<<<< HEAD
-            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0, new HashSet<>());
-=======
-            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, 0, 0, new ArrayList<>());
->>>>>>> user-database
+
+            UserData userData = new UserData(id, id.toString(), "", AuthorizationMethod.GOOGLE, "", 0, 0, new ArrayList<>());
+
             User user = new User(userData);
             userList.add(user);
             Mockito.when(userRepositoryMock.save(user)).thenReturn(user);

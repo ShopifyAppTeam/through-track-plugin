@@ -2,6 +2,7 @@ package com.appteam.template.oauth;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -9,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
+import com.appteam.template.data.Token;
+import com.appteam.template.dto.TokenData;
+import com.appteam.template.service.TokenService;
 import com.appteam.template.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserService();
@@ -56,10 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
-        return authConfiguration.getAuthenticationManager();
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
+//        return authConfiguration.getAuthenticationManager();
+//    }
 
 
     @Override
@@ -71,17 +78,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/**", "/login", "/oauth/**").permitAll()
+                .antMatchers("/", "/login", "/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                //.loginPage("/login")
+                .loginPage("/login")
                 .usernameParameter("email")
-                //.passwordParameter("pass")
+                .passwordParameter("pass")
                 .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                //.loginPage("/login")
+                .loginPage("/login")
                 .userInfoEndpoint()
                 .userService(oauthUserService)
                 .and()
@@ -95,14 +102,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 
                         userService.processOAuthPostLogin(oauthUser.getEmail());
-                        Cookie cookie = new Cookie("name","12345");
-//                        cookie.setPath("http://localhost:8080/");
+
+                        TokenData tokenData = TokenData.generate(oauthUser.getEmail());
+                        tokenService.saveToken(tokenData);
+                        Cookie cookie = new Cookie("token" + tokenData.getKey().substring(0, 4), URLEncoder.encode(tokenData.toJSON().toString(), "UTF-8"));
+                        cookie.setPath("/");
+                        cookie.setMaxAge(24 * 60 * 60);
 //                        URL urlToRedirect = new URL("http://localhost:8080/test/redirectedUrl");
 //                        cookie.setDomain(urlToRedirect.getHost());
                         response.addCookie(cookie);
-//                        response.sendRedirect("/test/redirectedUrl");;
-                        response.setStatus(303);
-                        response.sendRedirect("https://java-shop1.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=read_content%2Cwrite_content%2Cread_themes%2Cwrite_themes%2Cread_products%2Cwrite_products%2Cread_customers%2Cwrite_customers%2Cread_orders%2Cwrite_orders%2Cread_script_tags%2Cwrite_script_tags%2Cread_fulfillments%2Cwrite_fulfillments%2Cread_shipping%2Cwrite_shipping%2Cread_analytics&redirect_uri=http://localhost:8080/test/redirectedUrl&state=12345");
+                        response.sendRedirect("/");
+                        //response.sendRedirect("https://localhost:3000/home");
+//                        response.setStatus(303);
+                        //response.sendRedirect("https://oharadevelopershop.myshopify.com/admin/oauth/authorize?client_id=62c60904ece30e9454ebd81fccc7882c&scope=read_content%2Cwrite_content%2Cread_themes%2Cwrite_themes%2Cread_products%2Cwrite_products%2Cread_customers%2Cwrite_customers%2Cread_orders%2Cwrite_orders%2Cread_script_tags%2Cwrite_script_tags%2Cread_fulfillments%2Cwrite_fulfillments%2Cread_shipping%2Cwrite_shipping%2Cread_analytics&redirect_uri=http://localhost:8080/");
                     }
                 })
                 .and()

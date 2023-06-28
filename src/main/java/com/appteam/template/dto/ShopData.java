@@ -5,16 +5,17 @@ import com.appteam.template.data.Order;
 import com.appteam.template.data.Shop;
 import com.appteam.template.data.User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ShopData {
     private String subdomain;
     private String token;
     private Collection<Order> orders;
     private User user;
+
+    public ShopData() {
+        orders = new ArrayList<>();
+    }
 
     public ShopData (String subdomain, String token, User user, Collection<Order> orders) {
         this.subdomain = subdomain;
