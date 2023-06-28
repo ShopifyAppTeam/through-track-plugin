@@ -2,10 +2,12 @@ package com.appteam.template.service;
 
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.dto.UserData;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpClient;
@@ -36,6 +38,7 @@ public class DHLService {
             String service = order.getString("service");
             String status = order.getJSONObject("status").toString();
             OrderData data = new OrderData(id, service, email, status, null);
+            // push data to database
             orderService.saveOrder(data);
         }
     }
@@ -93,10 +96,17 @@ public class DHLService {
         List<OrderData> userOrders = orderService.getAllOrders().stream()
                 .filter(order -> user.getEmail().equals(order.getMerchant())).collect(Collectors.toList());
         StringBuilder shipmentsStatus = new StringBuilder();
+        shipmentsStatus.append("There are your shimpents status:\n");
         for (OrderData order : userOrders) {
-            updateShipmentInfo(order.getId().toString(), user.getEmail());
-            shipmentsStatus.append(updateShipmentInfo(order.getId().toString(), user.getEmail()));
-            shipmentsStatus.append("\n");
+            shipmentsStatus.append("\tID: ");
+            shipmentsStatus.append(order.getId().toString());
+            shipmentsStatus.append("\n\tService: ");
+            shipmentsStatus.append(order.getService());
+            shipmentsStatus.append("\n\tMerchant: ");
+            shipmentsStatus.append(order.getShop().getSubdomain());
+            shipmentsStatus.append("\n\tStatus: ");
+            shipmentsStatus.append(order.getStatus());
+            shipmentsStatus.append("\n\n");
         }
         notificationService.sendSimpleMessage(user.getEmail(), "Shopify shipments update", shipmentsStatus.toString());
     }
