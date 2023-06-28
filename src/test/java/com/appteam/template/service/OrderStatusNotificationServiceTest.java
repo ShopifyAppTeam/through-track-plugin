@@ -41,9 +41,10 @@ class OrderStatusNotificationServiceTest {
         return msg;
     }
 
-    static private class IsSimpleMailMsg extends ArgumentMatcher<SimpleMailMessage> {
-        public boolean matches(Object mime) {
-            return mime instanceof SimpleMailMessage;
+    static private class IsSimpleMailMsg implements ArgumentMatcher<SimpleMailMessage> {
+        @Override
+        public boolean matches(SimpleMailMessage argument) {
+            return true;
         }
     }
 
