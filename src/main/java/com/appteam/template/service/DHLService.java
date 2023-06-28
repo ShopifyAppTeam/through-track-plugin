@@ -96,10 +96,17 @@ public class DHLService {
         List<OrderData> userOrders = orderService.getAllOrders().stream()
                 .filter(order -> user.getEmail().equals(order.getMerchant())).collect(Collectors.toList());
         StringBuilder shipmentsStatus = new StringBuilder();
+        shipmentsStatus.append("There are your shimpents status:\n");
         for (OrderData order : userOrders) {
-            updateShipmentInfo(order.getId().toString(), user.getEmail());
-            shipmentsStatus.append(updateShipmentInfo(order.getId().toString(), user.getEmail()));
-            shipmentsStatus.append("\n");
+            shipmentsStatus.append("\tID: ");
+            shipmentsStatus.append(order.getId().toString());
+            shipmentsStatus.append("\n\tService: ");
+            shipmentsStatus.append(order.getService());
+            shipmentsStatus.append("\n\tMerchant: ");
+            shipmentsStatus.append(order.getShop().getSubdomain());
+            shipmentsStatus.append("\n\tStatus: ");
+            shipmentsStatus.append(order.getStatus());
+            shipmentsStatus.append("\n\n");
         }
         notificationService.sendSimpleMessage(user.getEmail(), "Shopify shipments update", shipmentsStatus.toString());
     }
