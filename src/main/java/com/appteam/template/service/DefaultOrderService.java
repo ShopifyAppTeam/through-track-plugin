@@ -1,6 +1,7 @@
 package com.appteam.template.service;
 
 import com.appteam.template.data.Order;
+import com.appteam.template.data.OrderStatus;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.OrderRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service("orderService")
@@ -54,6 +56,31 @@ public class DefaultOrderService implements OrderService {
         List<Order> orders = orderRepository.findUserOrdersByStatus(user, status);
         return convertOrderList(orders);
     }
+
+    @Override
+    public List<OrderData> getUserOrdersByService(String user, String status) {
+        List<Order> orders = orderRepository.findUserOrdersByService(user, status);
+        return convertOrderList(orders);
+    }
+
+    @Override
+    public List<OrderData> getUserOrdersByStatuses(String user, Collection<String> statuses) {
+        List<Order> orders = orderRepository.findUserOrdersByStatuses(user, statuses);
+        return convertOrderList(orders);
+    }
+
+    @Override
+    public List<OrderData> getUserOrdersByServices(String user, Collection<String> services) {
+        List<Order> orders = orderRepository.findUserOrdersByServices(user, services);
+        return convertOrderList(orders);
+    }
+
+    @Override
+    public List<OrderData> getUserOrders(String user) {
+        List<Order> orders = orderRepository.findUserOrders(user);
+        return convertOrderList(orders);
+    }
+
 
     private List<OrderData> convertOrderList(List<Order> orders) {
         List<OrderData> data = new ArrayList<>();

@@ -4,10 +4,14 @@ import com.appteam.template.dto.TokenData;
 import com.appteam.template.oauth.CustomOAuth2User;
 import com.appteam.template.service.DHLService;
 import com.appteam.template.service.ShopService;
-import com.appteam.template.service.UserService;
 import com.shopify.ShopifySdk;
 import com.shopify.model.ShopifyShop;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.appteam.template.service.ParamsService;
+import com.appteam.template.service.UserService;
+import com.shopify.ShopifySdk;
+import com.shopify.model.ShopifyShop;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +36,15 @@ public class SampleController {
     @Autowired
     ShopService shopService;
 
-    private final DHLService DHLservice;
+    @Autowired
+    AuthController authController;
 
-    private final AuthController authController = new AuthController();
+    private final DHLService dhlService;
+    private final ParamsService paramsService;
 
-    public SampleController(DHLService DHLservice) {
-        this.DHLservice = DHLservice;
+    public SampleController(DHLService DHLservice, ParamsService paramsService) {
+        this.dhlService = DHLservice;
+        this.paramsService = paramsService;
     }
 
     @GetMapping("/")
@@ -65,11 +72,32 @@ public class SampleController {
     /**
      * Call to DHL API, that updates shipment status in database and returns it
      */
+
     @GetMapping("/my-shipment-status")
     public ResponseEntity<String> myShipmentStatus(@RequestParam Optional<String> id, final HttpServletRequest request) {
         if (authController.getEmailFromRequest(request).equals("")) {
             return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
         }
         return new ResponseEntity<>(DHLservice.getShipmentInfo(id.orElse(null)), HttpStatus.OK);
+    }
+    @GetMapping("/update")
+    public ResponseEntity<String> updateShipmentStatus(@RequestParam Optional<String> id, @RequestParam Optional<String> user) {
+        return new ResponseEntity<>(dhlService.updateShipmentInfo(id.orElse(null), user.orElse("test@gmail.com")), HttpStatus.OK);
+    }
+
+    @GetMapping("/update-all")
+    public void updateShipmentStatus() {
+        dhlService.updateAllShipmentsStatus();
+    }
+
+    @GetMapping("/set-shipment-time")
+    public void setShipmentTime(@RequestParam Optional<Integer> time, @RequestParam Optional<String> user) {
+        time.ifPresent(integer -> paramsService.setShipmentTimeParam(integer, user.orElse("test@gmail.com")));
+    }
+
+    @GetMapping("/set-update-time")
+    public void setUpdateTime(@RequestParam Optional<Integer> time, @RequestParam Optional<String> user) {
+        user.ifPresent(System.err::println);
+        time.ifPresent(integer -> paramsService.setUpdateTimeParam(integer, user.orElse("test@gmail.com")));
     }
 }

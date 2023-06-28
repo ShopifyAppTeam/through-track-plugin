@@ -112,7 +112,8 @@ public class AuthController {
         if (email.isEmpty()) {
             return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);
         } else {
-            String token = "";//getTokenFromShopify(code, subdomain);
+           // String token = getTokenFromShopify(code, subdomain);
+            String token = "";
             User user = userService.getUserRepository().getUserByEmail(email);
             if(user == null){
                 return new ResponseEntity<>(false, HttpStatus.METHOD_NOT_ALLOWED);
@@ -131,21 +132,24 @@ public class AuthController {
         return new ResponseEntity<>(shopService.deleteShop(subdomain), HttpStatus.OK);
     }
 
-    private String getTokenFromShopify(String code, String subdomain) throws URISyntaxException, IOException, InterruptedException {
-        String url = "https://" + subdomain + "/admin/oauth/access_token?client_id=" + "62c60904ece30e9454ebd81fccc7882c" + "&client_secret=" + "30fbc33a2d764f0f1338cd2d94e95551" + "&code=" + code;
-        String token = "";
-        URI uri = new URI("https://" + subdomain + "/admin/oauth/access_token");
-        HttpRequest requestToShopify = HttpRequest.newBuilder()
-                .uri(java.net.URI.create(url))
-                .header("client_id", "62c60904ece30e9454ebd81fccc7882c")
-                .header("client_secret", "30fbc33a2d764f0f1338cd2d94e95551")
-                .header("code", code)
-                .method("GET", java.net.http.HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(requestToShopify, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response);
-        return "";
-    }
+//    private String getTokenFromShopify(String code, String subdomain) throws URISyntaxException, IOException, InterruptedException {
+//        String url = "https://" + subdomain + "/admin/oauth/access_token?client_id=" + "62c60904ece30e9454ebd81fccc7882c" + "&client_secret=" + "30fbc33a2d764f0f1338cd2d94e95551" + "&code=" + code;
+//        String token = "";
+////        HttpRequest requestToShopify = HttpRequest.newBuilder()
+////                .uri(java.net.URI.create("https://" + subdomain + "/admin/oauth/access_token?"))
+////                .header("client_id", "62c60904ece30e9454ebd81fccc7882c")
+////                .header("client_secret", "30fbc33a2d764f0f1338cd2d94e95551")
+////                .header("code", code)
+////                .method("POST", java.net.http.HttpRequest.BodyPublishers.noBody())
+////                .build();
+////        HttpResponse<String> response = HttpClient.newHttpClient().send(requestToShopify, HttpResponse.BodyHandlers.ofString());
+////        String info = response.body();
+//        RestTemplate restTemplate = new RestTemplate();
+//        String res = restTemplate.getForObject(url, String.class);
+//        System.out.println(res);
+//
+//        return "";
+//    }
 
     @GetMapping("/redirectedUrl")
     public String redirected(final HttpServletRequest request,

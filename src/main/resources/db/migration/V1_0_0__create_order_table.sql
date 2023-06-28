@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS "user" (
                                       password text,
                                       enabled boolean,
                                       auth_method character varying,
-                                      current_shop text,
                                       update_time int,
                                       orders_send_time int
 );
