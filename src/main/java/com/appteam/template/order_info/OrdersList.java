@@ -1,17 +1,13 @@
 package com.appteam.template.order_info;
 
-import com.appteam.template.data.Order;
 import com.appteam.template.dto.OrderData;
 import com.shopify.ShopifySdk;
 import com.shopify.model.*;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OrdersList {
-    private final String token;  // API token, generated in store
+    private final String token;
     private final String subdomain;
     final ShopifySdk shopifySdk;
 

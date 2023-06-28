@@ -1,13 +1,12 @@
 package com.appteam.template.service;
 
-import com.appteam.template.data.Order;
 import com.appteam.template.dto.OrderData;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,9 +48,9 @@ public class OrderStatusNotificationService implements EmailService {
 
     @Value("${test.receiver}")
     private String testUser;
-    // @Scheduled(fixedRate = )
+
     public void notifyUserWithNotSent() {
-        List<String> users = null; // getting users emails from User Table
+        List<String> users = null;
         String status = "unshipped";
         users.forEach(user -> sendOrderStatuses(user, status));
     }

@@ -3,15 +3,11 @@ package com.appteam.template.dto;
 import com.appteam.template.data.AuthorizationMethod;
 import com.appteam.template.data.Shop;
 import com.appteam.template.data.User;
-import com.appteam.template.data.Role;
-import javax.persistence.*;
-import java.util.HashSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class UserData {
     private Long idShopify;

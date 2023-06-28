@@ -1,12 +1,10 @@
 package com.appteam.template.service;
 
 import com.appteam.template.data.AuthorizationMethod;
-import com.appteam.template.data.Role;
 import com.appteam.template.data.User;
 import com.appteam.template.dto.UserData;
-import com.appteam.template.repository.RoleRepository;
-import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,8 +22,6 @@ public class UserService implements UserDetailsService {
     private EntityManager em;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
 
     public void processOAuthPostLogin(String email) {
         System.out.println("processOAuth2Login invoked");

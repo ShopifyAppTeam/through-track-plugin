@@ -2,12 +2,10 @@ package com.appteam.template.service;
 
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.dto.UserData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpClient;
@@ -38,7 +36,6 @@ public class DHLService {
             String service = order.getString("service");
             String status = order.getJSONObject("status").toString();
             OrderData data = new OrderData(id, service, email, status, null);
-            // push data to database
             orderService.saveOrder(data);
         }
     }
@@ -55,7 +52,7 @@ public class DHLService {
             }
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(java.net.URI.create("https://api-eu.dhl.com/track/shipments?trackingNumber=" + shipmentId))
-                    .header("DHL-API-Key", "14REm4bzMWj4sZUNvM950izekwaYUAVN")
+                    .header("DHL-API-Key", "value")
                     .method("GET", java.net.http.HttpRequest.BodyPublishers.noBody())
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());

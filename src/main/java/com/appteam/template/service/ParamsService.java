@@ -1,11 +1,8 @@
 package com.appteam.template.service;
 
-//import com.appteam.template.data.Provider;
 import com.appteam.template.dto.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Field;
 
 @Service
 public class ParamsService {

@@ -1,14 +1,12 @@
 package com.appteam.template.service;
 
 import com.appteam.template.data.Order;
-import com.appteam.template.data.OrderStatus;
 import com.appteam.template.dto.OrderData;
 import com.appteam.template.exception.ResourceNotFoundException;
 import com.appteam.template.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +23,7 @@ public class DefaultOrderService implements OrderService {
     @Override
     public OrderData saveOrder(OrderData orderData) {
         Order order = populateOrderEntity(orderData);
-        return populateOrderData(orderRepository.save(order)); // концептуально
+        return populateOrderData(orderRepository.save(order));
     }
 
     @Override

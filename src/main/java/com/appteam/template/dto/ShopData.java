@@ -1,6 +1,5 @@
 package com.appteam.template.dto;
 
-import com.appteam.template.data.AuthorizationMethod;
 import com.appteam.template.data.Order;
 import com.appteam.template.data.Shop;
 import com.appteam.template.data.User;

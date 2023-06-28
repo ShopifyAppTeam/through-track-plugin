@@ -1,10 +1,9 @@
 package com.appteam.template.service;
 
-import com.appteam.template.data.Shop;
 import com.appteam.template.data.Token;
-import com.appteam.template.dto.ShopData;
 import com.appteam.template.dto.TokenData;
 import com.appteam.template.repository.TokenRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

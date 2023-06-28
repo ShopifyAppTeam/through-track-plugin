@@ -1,6 +1,5 @@
 package com.appteam.template.service;
 
-import com.appteam.template.data.OrderStatus;
 import com.appteam.template.dto.OrderData;
 
 import java.util.Collection;
@@ -8,7 +7,6 @@ import java.util.List;
 
 public interface OrderService {
     OrderData saveOrder(OrderData orderData);
-    // OrderData updateOrder(OrderData orderData);
 
     Boolean deleteOrder(final Long orderId);
 

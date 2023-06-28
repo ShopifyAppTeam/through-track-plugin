@@ -1,8 +1,6 @@
 package com.appteam.template.data;
 
 import com.appteam.template.dto.TokenData;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

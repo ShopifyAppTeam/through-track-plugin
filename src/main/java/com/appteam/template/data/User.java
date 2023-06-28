@@ -3,13 +3,10 @@ package com.appteam.template.data;
 import com.appteam.template.dto.UserData;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Table(name="user", schema = "through-track-plugin_db")

@@ -1,12 +1,8 @@
 package com.appteam.template.dto;
 
 import com.appteam.template.data.Token;
-import lombok.Getter;
-import lombok.Setter;
 import org.json.JSONObject;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.SecureRandom;
