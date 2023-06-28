@@ -35,14 +35,14 @@ public class DHLService {
             Long id = order.getLong("id");
             String service = order.getString("service");
             String status = order.getJSONObject("status").toString();
-            OrderData data = new OrderData(id, service, email, status);
+            OrderData data = new OrderData(id, service, email, status, null);
             // push data to database
             orderService.saveOrder(data);
         }
     }
 
     private void setOrderAsNotFound(String shipmentId, String email) {
-        OrderData data = new OrderData(Long.parseLong(shipmentId), "service", email, "Order not found");
+        OrderData data = new OrderData(Long.parseLong(shipmentId), "service", email, "Order not found", null);
         orderService.saveOrder(data);
     }
 

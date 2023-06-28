@@ -75,12 +75,6 @@ public class DefaultOrderService implements OrderService {
         return convertOrderList(orders);
     }
 
-    @Override
-    public List<OrderData> getUserOrders(String user) {
-        List<Order> orders = orderRepository.findUserOrders(user);
-        return convertOrderList(orders);
-    }
-
 
     private List<OrderData> convertOrderList(List<Order> orders) {
         List<OrderData> data = new ArrayList<>();
