@@ -39,6 +39,10 @@ public class DefaultOrderService implements OrderService {
         return convertOrderList(orders);
     }
 
+    public List<OrderData> getUserOrders(String user) {
+        return convertOrderList(orderRepository.findUserOrders(user));
+    }
+
     @Override
     public OrderData getOrderById(Long id) {
         return populateOrderData(orderRepository.findById(id)
@@ -68,12 +72,6 @@ public class DefaultOrderService implements OrderService {
     @Override
     public List<OrderData> getUserOrdersByServices(String user, Collection<String> services) {
         List<Order> orders = orderRepository.findUserOrdersByServices(user, services);
-        return convertOrderList(orders);
-    }
-
-    @Override
-    public List<OrderData> getUserOrders(String user) {
-        List<Order> orders = orderRepository.findUserOrders(user);
         return convertOrderList(orders);
     }
 
