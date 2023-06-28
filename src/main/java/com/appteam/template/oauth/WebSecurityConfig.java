@@ -95,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         cookie.setPath("/");
                         cookie.setMaxAge(24 * 60 * 60);
                         response.addCookie(cookie);
-                        response.sendRedirect("http://localhost:8080/");
+                        response.sendRedirect("http://localhost:3000/");
                     }
                 })
                 .and()
